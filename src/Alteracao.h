@@ -6,8 +6,20 @@
 namespace std {
 
     class Alteracao {
-        UCTurma atual;
-        UCTurma pretendida;
+        private{
+            UCTurma atual;
+            UCTurma pretendida;
+        }
+        public{
+            Alteracao (UCTurma atual, UCTurma pretendida);
+
+            UCTurma getAtual();
+            UCTurma getPretendida();
+
+            void UCTurma setAtual(UCTurma atual);
+            void UCTurma setPretendida(UCTurma pretendida);
+            
+        }
     };
 
 } // std

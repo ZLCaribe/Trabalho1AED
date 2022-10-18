@@ -12,9 +12,24 @@
 namespace std {
 
     class Estudante {
-        string codEst;
-        string nomeEst;
-        list<UCTurma> turmas;
+        private{
+            string codEst;
+            string nomeEst;
+            list <UCTurma> turmas;
+        }
+
+        public{
+            Estudante(CodEst, string nomeEst, list <UCTurma> turmas);
+
+            string getCodEst();
+            string getNomeEst();
+            list <UCTurma> getTurmas();
+
+
+            void setCodEst(CodEst);
+            void
+
+        }
     };
 
 } // std

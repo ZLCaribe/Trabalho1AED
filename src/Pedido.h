@@ -11,10 +11,22 @@
 namespace std {
 
     class Pedido {
-        Estudante estudante;
-        Alteracao alteracao;
-    };
+    private{
+            Estudante estudante;
+            Alteracao alteracao;
+        }
+    public{
+            Pedido(Estudante estuda, Alteracao aleracao);nte
 
+            Estudante getEstudante;
+            Alteracao getAlteracao;
+
+            void setEstudante(Estudante estudante);
+            void setAleracao(Alteracao alteracao);
+        }
+
+
+    };
 } // std
 
 #endif //TRABALHO1AED_PEDIDO_H

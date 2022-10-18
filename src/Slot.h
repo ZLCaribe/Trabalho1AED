@@ -12,10 +12,26 @@ enum TipoAula{T, TP};
 namespace std {
 
     class Slot {
-        DiaSemana dia;
-        float HoraInicio;
-        float Duracao;
-        TipoAula tipo;
+    private{
+            DiaSemana dia;
+            float HoraInicio;
+            float Duracao;
+            TipoAula tipo;
+        }
+
+    public{
+            Slot(DiaSemana dia, float HoraInicio, float Duracao, TipoAula tipo);
+
+            DiaSemana getdia();
+            float getHoraInicio();
+            float getDuracao();
+            TipoAula gettipo();
+
+            void setdia(DiaSemana dia);
+            void setHoraInicio(float HoraInicio);
+            void setDuracao(float Duracao);
+            void settipo(TipoAula tipo);
+        }
     };
 
 } // std

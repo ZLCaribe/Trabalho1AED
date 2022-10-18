@@ -19,15 +19,17 @@ namespace std {
         }
 
         public{
-            Estudante(CodEst, string nomeEst, list <UCTurma> turmas);
+            Estudante(string codEst, string nomeEst);
 
             string getCodEst();
             string getNomeEst();
             list <UCTurma> getTurmas();
 
 
-            void setCodEst(CodEst);
-            void
+            void setCodEst(string CodEst);
+            void setNomeEst(string nomeEst);
+
+            void addUCTurma(UCTurma turma);
 
         }
     };

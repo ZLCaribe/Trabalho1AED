@@ -5,14 +5,25 @@
 #include <list>
 #include "Slot.h"
 
-namespace std {
+using namespace std;
 
     class TurmaH {
-        string codUC;
-        string codTurma;
-        list<Slot> horaUCTurma;
-    };
+        private:
+            string codUC;
+            string codTurma;
+            list<Slot> horarios;
 
-} // std
+        public:
+            TurmaH(string codUC, string codTurma);
+
+            string getCodUC();
+            string getCodTurma();
+            list<Slot> getHoraUCTurma();
+
+            void setCodUC(string codUC);
+            void setCodTurma(string codTurma);
+
+            void addSlot(Slot horario);
+    };
 
 #endif //TRABALHO1AED_TURMAH_H

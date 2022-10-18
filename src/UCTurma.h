@@ -6,8 +6,17 @@
 namespace std {
 
     class UCTurma {
-        string codUC;
-        string codTurma;
+        private:
+            string codUC;
+            string codTurma;
+        public:
+            UCTurma(string codUC, string codTurma);
+
+            string getCodUC();
+            string getCodTurma();
+
+            void setCodUC(string codUC);
+            void setCodTurma(string codTurma);
     };
 
 } // std

@@ -8,25 +8,20 @@
 #include "Estudante.h"
 #include "Alteracao.h"
 
-namespace std {
+using namespace std;
 
-    class Pedido {
-    private{
-            Estudante estudante;
-            Alteracao alteracao;
-        }
-    public{
-            Pedido(Estudante estuda, Alteracao aleracao);nte
+class Pedido {
+    private:
+        Estudante estudante;
+        Alteracao alteracao;
+    public:
+        Pedido(Estudante estudante, Alteracao alteracao);
 
-            Estudante getEstudante;
-            Alteracao getAlteracao;
+        Estudante getEstudante();
+        Alteracao getAlteracao();
 
-            void setEstudante(Estudante estudante);
-            void setAleracao(Alteracao alteracao);
-        }
-
-
-    };
-} // std
+        void setEstudante(Estudante estudante);
+        void setAlteracao(Alteracao alteracao);
+};
 
 #endif //TRABALHO1AED_PEDIDO_H

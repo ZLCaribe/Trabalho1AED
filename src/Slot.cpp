@@ -2,11 +2,11 @@
 
 using namespace std;
 
-Slot::Slot(DiaSemana dia, float HoraInicio, float Duracao, TipoAula tipo) {
-    this -> DiaSemana = dia;
-    this -> HoraInicio = HoraInicio;
-    this -> Duracao = Duracao;
-    this -> TipoAula = tipo;
+Slot::Slot(DiaSemana dia, float horaInicio, float duracao, TipoAula tipo) {
+    this -> dia = dia;
+    this -> horaInicio = horaInicio;
+    this -> duracao = duracao;
+    this -> tipo = tipo;
 }
 
 DiaSemana Slot::getdia() {
@@ -14,11 +14,11 @@ DiaSemana Slot::getdia() {
 }
 
 float Slot::getHoraInicio() {
-    return this -> HoraInicio;
+    return this -> horaInicio;
 }
 
 float Slot::getDuracao() {
-    return this -> Duracao;
+    return this -> duracao;
 }
 
 TipoAula Slot::gettipo() {
@@ -26,17 +26,17 @@ TipoAula Slot::gettipo() {
 }
 
 void Slot::setdia(DiaSemana dia) {
-    this -> DiaSemana = dia;
+    this -> dia = dia;
 }
 
-void Slot::setHoraInicio(float HoraIncio) {
-    this -> HoraIncio = HoraIncio;
+void Slot::setHoraInicio(float horaInicio) {
+    this -> horaInicio = horaInicio;
 }
 
-void Slot::setDuracao(float Duracao) {
-    this -> Duracao = Duracao;
+void Slot::setDuracao(float duracao) {
+    this -> duracao = duracao;
 }
 
 void Slot::settipo(TipoAula tipo) {
-    this -> TipoAula = tipo;
+    this -> tipo = tipo;
 }

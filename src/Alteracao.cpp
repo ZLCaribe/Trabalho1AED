@@ -1,20 +1,19 @@
 #include "Alteracao.h"
 
-namespace std {
-    Alteracao::Alteracao (UCTurma atual, UCTurma pretendida){
-        this->atual = atual;
-        this->pretendida = pretendida;
-    }
+using namespace std;
 
-    UCTurma Alteracao::getAtual(){return atual;}
-    UCTurma Alteracao::getPretendida(){return pretendida;}
+Alteracao::Alteracao (UCTurma atual, UCTurma pretendida){
+    this->atual = atual;
+    this->pretendida = pretendida;
+}
 
-    void UCTurma Alteracao::setAtual(UCTurma atual){
-        this->atual = atual;
-    }
+UCTurma Alteracao::getAtual(){return this->atual;}
+UCTurma Alteracao::getPretendida(){return this->pretendida;}
 
-    void UCTurma Alteracao::setPretendida(UCTurma pretendida){
-        this->pretendida = pretendida;
-    }
+void Alteracao::setAtual(UCTurma atual){
+    this->atual = atual;
+}
 
-} // std
+void Alteracao::setPretendida(UCTurma pretendida){
+    this->pretendida = pretendida;
+}

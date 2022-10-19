@@ -7,23 +7,23 @@
 
 using namespace std;
 
-    class TurmaH {
-        private:
-            string codUC;
-            string codTurma;
-            list<Slot> horarios;
+class TurmaH {
+    private:
+        string codUC;
+        string codTurma;
+        list<Slot> horarios;
 
-        public:
-            TurmaH(string codUC, string codTurma);
+    public:
+        TurmaH(string codUC, string codTurma);
 
-            string getCodUC();
-            string getCodTurma();
-            list<Slot> getHoraUCTurma();
+        string getCodUC();
+        string getCodTurma();
+        list<Slot> getHoraUCTurma();
 
-            void setCodUC(string codUC);
-            void setCodTurma(string codTurma);
+        void setCodUC(string codUC);
+        void setCodTurma(string codTurma);
 
-            void addSlot(Slot horario);
-    };
+        void addSlot(Slot horario);
+};
 
 #endif //TRABALHO1AED_TURMAH_H

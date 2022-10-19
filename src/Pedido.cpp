@@ -2,16 +2,16 @@
 
 using namespace std;
 
-Pedido::Pedido(Estudante estudante, Alteracao aleracao) {
-    this -> Estudante = estudante;
-    this -> Aleracao = alteracao;
+Pedido::Pedido(Estudante estudante, Alteracao alteracao) {
+    this -> estudante = estudante;
+    this -> alteracao = alteracao;
 }
 
 Estudante Pedido::getEstudante() {
     return this -> estudante;
 }
 
-Alteracao Pedido::getAleracao() {
+Alteracao Pedido::getAlteracao() {
     return this -> alteracao;
 }
 
@@ -20,5 +20,5 @@ void Pedido::setEstudante(Estudante estudante) {
 }
 
 void Pedido::setAlteracao(Alteracao alteracao) {
-    this -> elteracao = alteracao;
+    this -> alteracao = alteracao;
 }

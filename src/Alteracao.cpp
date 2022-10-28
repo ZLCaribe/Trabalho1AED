@@ -2,10 +2,7 @@
 
 using namespace std;
 
-Alteracao::Alteracao (UCTurma atual, UCTurma pretendida){
-    this->atual = atual;
-    this->pretendida = pretendida;
-}
+Alteracao::Alteracao (UCTurma &atual, UCTurma &pretendida): atual(atual), pretendida(pretendida){}
 
 UCTurma Alteracao::getAtual(){return this->atual;}
 UCTurma Alteracao::getPretendida(){return this->pretendida;}

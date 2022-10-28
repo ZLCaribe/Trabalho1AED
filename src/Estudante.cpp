@@ -2,10 +2,7 @@
 
 using namespace std;
 
-Estudante::Estudante(string codEst, string nomeEst){
-    this->codEst = codEst;
-    this->nomeEst = nomeEst;
-}
+Estudante::Estudante(string &codEst, string &nomeEst):codEst(codEst),nomeEst(nomeEst){}
 
 string Estudante::getCodEst(){
     return this->codEst;

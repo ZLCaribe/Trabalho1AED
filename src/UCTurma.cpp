@@ -2,23 +2,20 @@
 
 using namespace std;
 
-UCTurma::UCTurma(string codUC, string codTurma) {
-    this->codUC = codUC;
-    this->codTurma = codTurma;
-}
+UCTurma::UCTurma(string &codUC,string &codTurma):codUC(codUC),codTurma(codTurma) {}
 
-string UCTurma::getCodUC() {
+string& UCTurma::getCodUC() {
     return this->codUC;
 }
 
-string UCTurma::getCodTurma() {
+string& UCTurma::getCodTurma() {
     return this->codTurma;
 }
 
-void UCTurma::setCodUC(string codUC) {
+void UCTurma::setCodUC(const string &codUC) {
     this->codUC = codUC;
 }
 
-void UCTurma::setCodTurma(string codTurma) {
+void UCTurma::setCodTurma(const string &codTurma) {
     this->codTurma = codTurma;
 }

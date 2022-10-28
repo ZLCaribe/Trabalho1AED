@@ -10,7 +10,7 @@ class Alteracao {
         UCTurma atual;
         UCTurma pretendida;
     public:
-        Alteracao (UCTurma atual, UCTurma pretendida);
+        Alteracao (UCTurma &atual, UCTurma &pretendida);
 
         UCTurma getAtual();
         UCTurma getPretendida();

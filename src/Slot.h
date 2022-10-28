@@ -17,8 +17,8 @@ class Slot {
         Slot(DiaSemana dia, float horaInicio, float duracao, TipoAula tipo);
 
         DiaSemana getdia();
-        float getHoraInicio();
-        float getDuracao();
+        float getHoraInicio() const;
+        float getDuracao() const;
         TipoAula gettipo();
 
         void setdia(DiaSemana dia);

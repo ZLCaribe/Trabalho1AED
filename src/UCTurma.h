@@ -9,14 +9,15 @@ class UCTurma {
     private:
         string codUC;
         string codTurma;
+        int nEstudantes = 0;
     public:
-        UCTurma(string codUC, string codTurma);
+        UCTurma(string &codUC, string &codTurma);
 
-        string getCodUC();
-        string getCodTurma();
+        string &getCodUC();
+        string &getCodTurma();
 
-        void setCodUC(string codUC);
-        void setCodTurma(string codTurma);
+        void setCodUC(const string &codUC);
+        void setCodTurma(const string &codTurma);
 };
 
 #endif //TRABALHO1AED_UCTURMA_H

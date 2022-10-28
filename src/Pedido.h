@@ -15,13 +15,13 @@ class Pedido {
         Estudante estudante;
         Alteracao alteracao;
     public:
-        Pedido(Estudante estudante, Alteracao alteracao);
+        Pedido(Estudante &estudante, Alteracao &alteracao);
 
-        Estudante getEstudante();
-        Alteracao getAlteracao();
+        Estudante &getEstudante();
+        Alteracao &getAlteracao();
 
-        void setEstudante(Estudante estudante);
-        void setAlteracao(Alteracao alteracao);
+        void setEstudante(const Estudante &estudante);
+        void setAlteracao(const Alteracao &alteracao);
 };
 
 #endif //TRABALHO1AED_PEDIDO_H

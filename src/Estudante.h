@@ -14,7 +14,7 @@ class Estudante {
         list <UCTurma> turmas;
 
     public:
-        Estudante(string codEst, string nomeEst);
+        Estudante(string &codEst, string &nomeEst);
 
         string getCodEst();
         string getNomeEst();

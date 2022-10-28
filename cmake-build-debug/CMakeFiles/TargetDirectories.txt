@@ -1,3 +1,3 @@
-C:/Users/ZLAmo/OneDrive/Documentos/Faculdade/FEUP/1 Semestre/2 Ano/AED2/Trabalho1AED/Trabalho1AED/cmake-build-debug/CMakeFiles/..dir
-C:/Users/ZLAmo/OneDrive/Documentos/Faculdade/FEUP/1 Semestre/2 Ano/AED2/Trabalho1AED/Trabalho1AED/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/ZLAmo/OneDrive/Documentos/Faculdade/FEUP/1 Semestre/2 Ano/AED2/Trabalho1AED/Trabalho1AED/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/pedro/CLionProjects/Trabalho1AED/cmake-build-debug/CMakeFiles/..dir
+C:/Users/pedro/CLionProjects/Trabalho1AED/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/pedro/CLionProjects/Trabalho1AED/cmake-build-debug/CMakeFiles/rebuild_cache.dir

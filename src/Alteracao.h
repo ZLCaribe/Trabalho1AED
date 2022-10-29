@@ -7,8 +7,8 @@ using namespace std;
 
 class Alteracao {
     private:
-        UCTurma atual;
-        UCTurma pretendida;
+        UCTurma &atual;
+        UCTurma &pretendida;
     public:
         Alteracao (UCTurma &atual, UCTurma &pretendida);
 

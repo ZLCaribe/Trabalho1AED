@@ -14,7 +14,7 @@ class Estudante {
         list <UCTurma> turmas;
 
     public:
-        Estudante(string &codEst, string &nomeEst);
+        Estudante(string codEst, string nomeEst);
 
         string getCodEst();
         string getNomeEst();
@@ -24,7 +24,8 @@ class Estudante {
         void setCodEst(string CodEst);
         void setNomeEst(string nomeEst);
 
-        void addUCTurma(UCTurma turma);
+        void addUCTurma(UCTurma ucTurma);
+        void rmUCTurma(UCTurma ucTurma);
 };
 
 #endif //TRABALHO1AED_ESTUDANTE_H

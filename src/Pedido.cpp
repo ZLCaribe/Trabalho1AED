@@ -2,20 +2,29 @@
 
 using namespace std;
 
-Pedido::Pedido(Estudante &estudante,Alteracao &alteracao): estudante(estudante), alteracao(alteracao) {}
+Pedido::Pedido(const Estudante &estudante, TipoPedido tipoPedido):
+        estudante(estudante), tipoPedido(tipoPedido) {}
 
 Estudante &Pedido::getEstudante() {
     return this -> estudante;
 }
 
-Alteracao &Pedido::getAlteracao() {
-    return this -> alteracao;
+vector<UCTurma> &Pedido::getUCDesejadas() {
+    return this -> ucTurmaDesejadas;
 }
 
 void Pedido::setEstudante(const Estudante &estudante) {
     this -> estudante = estudante;
 }
 
-void Pedido::setAlteracao(const Alteracao &alteracao) {
-    this -> alteracao = alteracao;
+void Pedido::addUCDesejada(const UCTurma &ucTurmaDesejada) {
+    this -> ucTurmaDesejadas.push_back(ucTurmaDesejada);
+}
+
+TipoPedido Pedido::getTipoPedido() {
+    return this->tipoPedido;
+}
+
+void Pedido::setTipoPedido(TipoPedido tipoPedido) {
+    this->tipoPedido = tipoPedido;
 }

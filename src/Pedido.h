@@ -1,27 +1,29 @@
-//
-// Created by ZL on 18/10/2022.
-//
-
 #ifndef TRABALHO1AED_PEDIDO_H
 #define TRABALHO1AED_PEDIDO_H
 
+#include <vector>
 #include "Estudante.h"
 #include "Alteracao.h"
 
 using namespace std;
 
+enum TipoPedido{ADICIONAR,REMOVER,ALTERAR,ALTERARCONJ};
+
 class Pedido {
     private:
         Estudante estudante;
-        Alteracao alteracao;
+        vector<UCTurma> ucTurmaDesejadas;
+        TipoPedido tipoPedido;
     public:
-        Pedido(Estudante &estudante, Alteracao &alteracao);
+        Pedido(const Estudante &estudante, TipoPedido tipoPedido);
 
         Estudante &getEstudante();
-        Alteracao &getAlteracao();
+        vector<UCTurma> &getUCDesejadas();
+        TipoPedido getTipoPedido();
 
         void setEstudante(const Estudante &estudante);
-        void setAlteracao(const Alteracao &alteracao);
+        void addUCDesejada(const UCTurma &ucTurmaDesejada);
+        void setTipoPedido(TipoPedido tipoPedido);
 };
 
 #endif //TRABALHO1AED_PEDIDO_H

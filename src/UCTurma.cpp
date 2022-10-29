@@ -19,3 +19,4 @@ void UCTurma::setCodUC(const string &codUC) {
 void UCTurma::setCodTurma(const string &codTurma) {
     this->codTurma = codTurma;
 }
+

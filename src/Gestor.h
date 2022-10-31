@@ -18,8 +18,12 @@ class Gestor {
         vector<Pedido> pedidosRejeitados;
     public:
         int getUCTurma(string codUC, string codTurma);
+        int getEstudante(string codEst, string nomeEst);
         void guardarPedido(const Estudante &estudante,TipoPedido tipoPedido);
         void processarPedido();
+        void addUC();
+        void addHorario();
+        void addEstudante();
         UCTurma inputUCTurma();
 };
 

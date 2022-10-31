@@ -24,7 +24,7 @@ void Estudante::setNomeEst(string nomeEst){
     this->nomeEst = nomeEst;
 }
 
-void Estudante::addUCTurma(UCTurma ucTurma){
+void Estudante::addUCTurma(UCTurma ucTurma) const {
     this->turmas.push_back(ucTurma);
 }
 
@@ -35,4 +35,12 @@ void Estudante::rmUCTurma(UCTurma ucTurma) {
             break;
         }
     }
+}
+
+bool Estudante::operator<(const Estudante estudante) const{
+    return this->codEst < estudante.codEst;
+}
+
+bool Estudante::operator==(const Estudante estudante) const{
+    return this->codEst == estudante.codEst;
 }

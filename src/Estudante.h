@@ -24,8 +24,11 @@ class Estudante {
         void setCodEst(string CodEst);
         void setNomeEst(string nomeEst);
 
-        void addUCTurma(UCTurma ucTurma);
+        void addUCTurma(UCTurma ucTurma) const;
         void rmUCTurma(UCTurma ucTurma);
+
+        bool operator<(const Estudante estudante) const;
+        bool operator==(const Estudante estudante) const;
 };
 
 #endif //TRABALHO1AED_ESTUDANTE_H

@@ -36,3 +36,16 @@ void Slot::setDuracao(float duracao) {
 void Slot::settipo(TipoAula tipo) {
     this -> tipo = tipo;
 }
+
+DiaSemana Slot::stringToDiaSemana(string dia) {
+    if(dia == "Monday") return SEGUNDA;
+    if(dia == "Tuesday") return TERCA;
+    if(dia == "Wednesday")  return QUARTA;
+    if(dia == "Thursday") return QUINTA;
+    if(dia == "Friday") return SEXTA;
+}
+
+TipoAula Slot::stringToTipo(string tipo){
+    if(tipo == "T") return T;
+    if(tipo == "TP") return TP;
+}

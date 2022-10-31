@@ -1,6 +1,8 @@
 #ifndef TRABALHO1AED_SLOT_H
 #define TRABALHO1AED_SLOT_H
 
+#include <string>
+
 enum DiaSemana{SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA};
 
 enum TipoAula{T, TP};
@@ -25,6 +27,8 @@ class Slot {
         void setHoraInicio(float horaInicio);
         void setDuracao(float duracao);
         void settipo(TipoAula tipo);
+        static DiaSemana stringToDiaSemana(string dia);
+        static TipoAula stringToTipo(string tipo);
 };
 
 #endif //TRABALHO1AED_SLOT_H

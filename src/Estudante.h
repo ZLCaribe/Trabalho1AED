@@ -3,6 +3,7 @@
 
 #include "string"
 #include <list>
+#include <vector>
 #include "UCTurma.h"
 
 using namespace std;
@@ -24,11 +25,11 @@ class Estudante {
         void setCodEst(string CodEst);
         void setNomeEst(string nomeEst);
 
-        void addUCTurma(UCTurma ucTurma) const;
-        void rmUCTurma(UCTurma ucTurma);
+        void addUCTurma(const UCTurma& ucTurma);
+        void rmUCTurma(const UCTurma& ucTurma);
 
-        bool operator<(const Estudante estudante) const;
-        bool operator==(const Estudante estudante) const;
+        bool operator<(const Estudante& estudante) const;
+        bool operator==(const Estudante& estudante) const;
 };
 
 #endif //TRABALHO1AED_ESTUDANTE_H

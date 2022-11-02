@@ -17,14 +17,17 @@ class Gestor {
         queue<Pedido> pedidosFila;
         vector<Pedido> pedidosRejeitados;
     public:
-        int getUCTurma(string codUC, string codTurma);
-        int getEstudante(string codEst, string nomeEst);
-        void guardarPedido(const Estudante &estudante,TipoPedido tipoPedido);
+        int getUCTurma(const string& codUC, const string& codTurma);
+        list<Slot> getHorariosDeTurma(UCTurma turma);
+        int getEstudante(const string& codEst, const string& nomeEst);
+        void guardarPedido(const Pedido& pedido);
         void processarPedido();
         void addUC();
         void addHorario();
         void addEstudante();
         UCTurma inputUCTurma();
+        static bool compativel(const vector<Slot>& novoHorario);
+        vector<Slot> gerarNovoHorario(const list<UCTurma>& turmas,const vector<UCTurma>& turmasNovas);
 };
 
 

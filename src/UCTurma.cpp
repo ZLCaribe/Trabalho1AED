@@ -1,10 +1,12 @@
 #include "UCTurma.h"
 
+#include <utility>
+
 using namespace std;
 
 int UCTurma::MAX_ESTUDANTES = 25;
 
-UCTurma::UCTurma(const string &codUC,const string &codTurma):codUC(codUC),codTurma(codTurma) {}
+UCTurma::UCTurma(string codUC,string codTurma):codUC(std::move(codUC)),codTurma(std::move(codTurma)) {}
 
 string& UCTurma::getCodUC() {
     return this->codUC;
@@ -20,14 +22,6 @@ void UCTurma::setCodUC(const string &codUC) {
 
 void UCTurma::setCodTurma(const string &codTurma) {
     this->codTurma = codTurma;
-}
-
-int UCTurma::getNEstudantes() const {
-    return this->nEstudantes;
-}
-
-void UCTurma::operator++() {
-    this->nEstudantes++;
 }
 
 bool UCTurma::operator==(const UCTurma& ucTurma) {

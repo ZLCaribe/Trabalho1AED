@@ -4,63 +4,54 @@
 #include <fstream>
 #include <string>
 #include "Estudante.h"
-#include "UCturma.h"
+#include "UCTurma.h"
 
 using namespace std;
-
-bool compativel(const Estudante &estudante){
-
-    return true;
-}
-
+//TODO zl
 void Gestor::processarPedido() {
     Pedido pedidoAtual = this->pedidosFila.front();
-    Estudante estudante(" "," ");
+    vector<Slot> novoHorario;
     switch (pedidoAtual.getTipoPedido()) {
         case REMOVER:
             pedidoAtual.getEstudante().rmUCTurma(pedidoAtual.getUCDesejadas().at(0));
             break;
         case ADICIONAR:
+            size_t pos = this->getUCTurma(
+                    pedidoAtual.getUCDesejadas().at(0).getCodUC(),
+                    pedidoAtual.getUCDesejadas().at(0).getCodTurma());
+
+            for(auto i : this->horario.at(pos).getHoraUCTurma())
+                if(i.gettipo() == TP || i.gettipo() == PL)
+                    novoHorario.push_back(i);
+            for(auto i : pedidoAtual.getEstudante().getTurmas())
+                for(auto j : this->horario.at(this->getUCTurma(i.getCodUC(), i.getCodTurma())).getHoraUCTurma())
+                    if(j.gettipo() == TP || j.gettipo() == PL)
+                        novoHorario.push_back(j);
+
+
             break;
         case ALTERAR:
+
             break;
         case ALTERARCONJ:
             break;
     }
 }
 
-void Gestor::guardarPedido(const Estudante &estudante,TipoPedido tipoPedido) {
-    Pedido pedido(estudante,tipoPedido);
-    string codUC,codTurma;
-    UCTurma ucTurma;
-    int pos = -1;
-    switch (tipoPedido) {
-        case REMOVER:
-            do {
-                cin >> codTurma;
-                cin >> codUC;
-            } while ((pos = getUCTurma(codUC,codTurma)) == -1);
-            pedido.addUCDesejada(this->horario.at(pos));
-            break;
-        case ADICIONAR:
-
-            break;
-        case ALTERAR:
-            break;
-        case ALTERARCONJ:
-            break;
-    }
+void Gestor::guardarPedido(const Pedido& pedido) {
+    this->pedidosFila.push(pedido);
 }
 
-int Gestor::getUCTurma(string codUC, string codTurma) {
+int Gestor::getUCTurma(const string& codUC, const string& codTurma) {
     for(int i = 0; i < horario.size(); i++){
         if(this->horario[i].getCodTurma() == codTurma && this->horario[i].getCodUC() == codUC) {
             return i;
         }
     }
+    return -1;
 }
 
-int Gestor::getEstudante(string codEst, string nomeEst){
+int Gestor::getEstudante(const string& codEst, const string& nomeEst){
     for(int i = 0; i < this->estudantes.size(); i++){
         if(this->estudantes[i].getCodTurma() == codEst && this->estudantes[i].getCodUC() == nomeEst) {
             return i;
@@ -81,17 +72,16 @@ UCTurma Gestor::inputUCTurma() {
     }
     return this->horario.at(pos);
 }
-const vector<string> explode(const string& s, const char& c)
-{
-    string buff{""};
+
+vector<string> explode(const string& s, const char& c){
+    string buff;
     vector<string> v;
 
-    for(auto n:s)
-    {
+    for(auto n:s){
         if(n != c) buff+=n; else
-        if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+        if(n == c && !buff.empty()) { v.push_back(buff); buff = ""; }
     }
-    if(buff != "") v.push_back(buff);
+    if(!buff.empty()) v.push_back(buff);
 
     return v;
 }
@@ -139,9 +129,35 @@ void Gestor::addEstudante(){
             i->addUCTurma(ucTurma);
         }
         else
-            Estudante estudante(v[0], v[1]);
             this->estudantes.insert(estudante);
-
     }
 }
 
+bool Gestor::compativel(const vector<Slot>& novoHorario) {
+    for(int i = 0; i < novoHorario.size() - 1; i++)
+        for(int j = i + 1; j < novoHorario.size(); j++)
+            if(novoHorario.at(i).conflito(novoHorario.at(j)))
+                return false;
+    return true;
+}
+//TODO zl
+vector<Slot> Gestor::gerarNovoHorario(const list<UCTurma>& turmas,const vector<UCTurma>& turmasNovas) {
+    vector<Slot> novoHorario;
+    for(auto turma : turmas){
+
+    }
+/*
+    for(auto i : this->horario.at(pos).getHoraUCTurma())
+        if(i.gettipo() == TP || i.gettipo() == PL)
+            novoHorario.push_back(i);
+    for(auto i : pedidoAtual.getEstudante().getTurmas())
+        for(auto j : this->horario.at(this->getUCTurma(i.getCodUC(), i.getCodTurma())).getHoraUCTurma())
+            if(j.gettipo() == TP || j.gettipo() == PL)
+                novoHorario.push_back(j);
+    return novoHorario;
+*/
+}
+
+list<Slot> Gestor::getHorariosDeTurma(UCTurma turma) {
+    return this->horario.at(this->getUCTurma(turma.getCodUC(),turma.getCodTurma())).getHoraUCTurma();
+}

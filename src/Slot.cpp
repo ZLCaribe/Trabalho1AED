@@ -37,7 +37,7 @@ void Slot::settipo(TipoAula tipo) {
     this -> tipo = tipo;
 }
 
-DiaSemana Slot::stringToDiaSemana(string dia) {
+DiaSemana Slot::stringToDiaSemana(const string& dia) {
     if(dia == "Monday") return SEGUNDA;
     if(dia == "Tuesday") return TERCA;
     if(dia == "Wednesday")  return QUARTA;
@@ -45,7 +45,24 @@ DiaSemana Slot::stringToDiaSemana(string dia) {
     if(dia == "Friday") return SEXTA;
 }
 
-TipoAula Slot::stringToTipo(string tipo){
+TipoAula Slot::stringToTipo(const string& tipo){
     if(tipo == "T") return T;
     if(tipo == "TP") return TP;
+    else return PL;
+}
+
+Slot::Slot() {
+    this->tipo = T;
+    this->duracao = 0;
+    this->horaInicio = 0;
+    this->dia = SEGUNDA;
+}
+
+bool Slot::conflito(Slot slot) const {
+    if(this->dia != slot.dia) return false;
+    if(this->horaInicio == slot.horaInicio) return true;
+    if(this->horaInicio < slot.horaInicio)
+        return slot.horaInicio < this->horaInicio + this->duracao;
+    else
+        return this->horaInicio < slot.horaInicio + slot.duracao;
 }

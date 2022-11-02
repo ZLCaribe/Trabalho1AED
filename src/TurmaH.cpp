@@ -11,3 +11,11 @@ list<Slot>& TurmaH::getHoraUCTurma() {
 void TurmaH::addSlot(Slot horario) {
     this->horarios.push_back(horario);
 }
+
+int TurmaH::getNEstudantes() const {
+    return this->nEstudantes;
+}
+
+void TurmaH::operator++() {
+    this->nEstudantes++;
+}

@@ -5,7 +5,7 @@
 
 enum DiaSemana{SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA};
 
-enum TipoAula{T, TP};
+enum TipoAula{T, TP, PL};
 
 using namespace std;
 
@@ -17,6 +17,7 @@ class Slot {
         TipoAula tipo;
     public:
         Slot(DiaSemana dia, float horaInicio, float duracao, TipoAula tipo);
+        Slot();
 
         DiaSemana getdia();
         float getHoraInicio() const;
@@ -27,8 +28,10 @@ class Slot {
         void setHoraInicio(float horaInicio);
         void setDuracao(float duracao);
         void settipo(TipoAula tipo);
-        static DiaSemana stringToDiaSemana(string dia);
-        static TipoAula stringToTipo(string tipo);
+        static DiaSemana stringToDiaSemana(const string& dia);
+        static TipoAula stringToTipo(const string& tipo);
+
+        bool conflito(Slot slot) const;
 };
 
 #endif //TRABALHO1AED_SLOT_H

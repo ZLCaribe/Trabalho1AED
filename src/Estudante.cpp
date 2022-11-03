@@ -46,3 +46,10 @@ bool Estudante::operator<(const Estudante& estudante) const{
 bool Estudante::operator==(const Estudante& estudante) const{
     return this->codEst == estudante.codEst;
 }
+
+UCTurma Estudante::getTurmaByUC(const string& codUC) {
+    for(auto ucTurma : this->turmas)
+        if(ucTurma.getCodUC() == codUC)
+            return ucTurma;
+    return {};
+}

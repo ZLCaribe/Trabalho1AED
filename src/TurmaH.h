@@ -23,6 +23,7 @@ class TurmaH: public UCTurma{
         void addSlot(Slot horario);
 
         void operator++();
+        void operator--();
 };
 
 #endif //TRABALHO1AED_TURMAH_H

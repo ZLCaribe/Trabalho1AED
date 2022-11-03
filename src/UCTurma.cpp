@@ -8,12 +8,12 @@ int UCTurma::MAX_ESTUDANTES = 25;
 
 UCTurma::UCTurma(string codUC,string codTurma):codUC(std::move(codUC)),codTurma(std::move(codTurma)) {}
 
-string& UCTurma::getCodUC() {
-    return this->codUC;
+string UCTurma::getCodUC() const{
+    return this->codTurma.substr(0,this->codUC.length());
 }
 
-string& UCTurma::getCodTurma() {
-    return this->codTurma;
+string UCTurma::getCodTurma() const{
+    return this->codTurma.substr(0,this->codTurma.length());
 }
 
 void UCTurma::setCodUC(const string &codUC) {

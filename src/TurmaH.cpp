@@ -19,3 +19,7 @@ int TurmaH::getNEstudantes() const {
 void TurmaH::operator++() {
     this->nEstudantes++;
 }
+
+void TurmaH::operator--() {
+    this->nEstudantes--;
+}

@@ -14,8 +14,8 @@ class UCTurma {
         UCTurma();
         UCTurma(string codUC, string codTurma);
 
-        string &getCodUC();
-        string &getCodTurma();
+        string getCodUC()const;
+        string getCodTurma()const;
 
         void setCodUC(const string &codUC);
         void setCodTurma(const string &codTurma);

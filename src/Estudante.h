@@ -25,7 +25,7 @@ class Estudante {
         void setCodEst(string CodEst);
         void setNomeEst(string nomeEst);
 
-        void addUCTurma(const UCTurma& ucTurma);
+        static void addUCTurma(const UCTurma& ucTurma);
         void rmUCTurma(const UCTurma& ucTurma);
 
         bool operator<(const Estudante& estudante) const;

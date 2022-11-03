@@ -126,7 +126,7 @@ void Gestor::addEstudante(){
         auto i = this->estudantes.find(estudante);
         if(i != this->estudantes.end()){
             UCTurma ucTurma(v[2],v[3]);
-            i->addUCTurma(ucTurma);
+            i->Estudante::addUCTurma(ucTurma);
         }
         else
             this->estudantes.insert(estudante);

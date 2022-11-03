@@ -25,9 +25,14 @@ class Gestor {
         void addUC();
         void addHorario();
         void addEstudante();
+        string getEstudanteHorario(string studentCode);
         UCTurma inputUCTurma();
         static bool compativel(const vector<Slot>& novoHorario);
         vector<Slot> gerarNovoHorario(const list<UCTurma>& turmas,const vector<UCTurma>& turmasNovas);
+        void menuVerDados();
+        void menuAlterar();
+        void menuCarregar();
+        void mainMenu();
 };
 
 

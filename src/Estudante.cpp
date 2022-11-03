@@ -14,7 +14,7 @@ string Estudante::getNomeEst(){
     return this->nomeEst;
 }
 
-list <UCTurma> Estudante::getTurmas(){
+list <UCTurma> Estudante::getTurmas() const {
     return this->turmas;
 }
 
@@ -45,4 +45,8 @@ bool Estudante::operator<(const Estudante& estudante) const{
 
 bool Estudante::operator==(const Estudante& estudante) const{
     return this->codEst == estudante.codEst;
+}
+
+string Estudante::estudanteToString(Estudante& estudante){
+    return "codigo: " + estudante.getCodEst() + "nome: " + estudante.getNomeEst();
 }

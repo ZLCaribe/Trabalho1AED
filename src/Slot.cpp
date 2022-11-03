@@ -51,6 +51,20 @@ TipoAula Slot::stringToTipo(const string& tipo){
     else return PL;
 }
 
+string Slot::DiaSemanaToString(const DiaSemana& dia) {
+    if(dia == SEGUNDA) return "segunda";
+    if(dia == TERCA) return "terca";
+    if(dia == QUARTA)  return "quarta";
+    if(dia == QUINTA) return "quinta";
+    if(dia == SEXTA) return "sexta";
+}
+
+string Slot::tipoToString(const TipoAula& tipo){
+    if(tipo == T) return "T";
+    if(tipo == TP) return "TP";
+    else return "PL";
+}
+
 Slot::Slot() {
     this->tipo = T;
     this->duracao = 0;

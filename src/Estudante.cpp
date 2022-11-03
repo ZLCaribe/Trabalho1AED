@@ -14,7 +14,7 @@ string Estudante::getNomeEst(){
     return this->nomeEst;
 }
 
-list <UCTurma> Estudante::getTurmas(){
+list <UCTurma> Estudante::getTurmas() const {
     return this->turmas;
 }
 
@@ -52,4 +52,7 @@ UCTurma Estudante::getTurmaByUC(const string& codUC) {
         if(ucTurma.getCodUC() == codUC)
             return ucTurma;
     return {};
+}
+string Estudante::estudanteToString(Estudante& estudante){
+    return "codigo: " + estudante.getCodEst() + "nome: " + estudante.getNomeEst();
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <utility>
 #include "Estudante.h"
 #include "UCTurma.h"
 
@@ -112,9 +113,8 @@ void Gestor::addEstudante(){
         this->getTurmaH(ucTurma).operator++();
         auto i = this->estudantes.find(estudante);
         auto est = *i;
-        if(i != this->estudantes.end()){
+        if(i != this->estudantes.end())
             est.addUCTurma(ucTurma);
-        }
         else {
             estudante.addUCTurma(ucTurma);
             this->estudantes.insert(estudante);
@@ -188,4 +188,131 @@ TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     for(auto turma : this->horario)
         if(turma.getCodUC() == ucTurma.getCodUC() && turma.getCodTurma() == ucTurma.getCodTurma())
             return turma;
+}
+
+string Gestor::getEstudanteHorario(string studentCode){
+      string stringHorario;
+      Estudante estudante(std::move(studentCode),"");
+      auto it = estudantes.find(estudante);
+      for(const auto& turma : it->getTurmas()){
+          list<Slot> a = getHorariosDeTurma(turma);
+          stringHorario += "CodUC: " + turma.getCodUC() + "; CodTurma: " + turma.getCodTurma() + "\n";
+          for(auto j : a){
+              stringHorario += "Dia: " + Slot::DiaSemanaToString(j.getdia()) + "; \n Hora de inicio: " +
+                               to_string(j.getHoraInicio()) + ";\n Duracao: " + to_string(j.getDuracao()) +
+                               ";\n Tipo:" + Slot::tipoToString(j.gettipo()) + "\n";
+          }
+      }
+      return stringHorario;
+
+}
+
+void Gestor::menuVerDados(){
+    cout << "Selecione a opcao: \n";
+    cout << "1: Ocupação de turmas/ano/UC \n";
+    cout << "2: Horário de determinado estudante \n";
+    cout << "3: Estudantes em determinada turma/UC/ano  \n";
+    cout << "4: Estudantes com mais de n UCs \n";
+    cout << "5: Voltar atras \n";
+    int i;
+    cin >> i;
+    switch (i) {
+        case 1:
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+        case 4:
+            break;
+        default:
+            cout << "Selecione uma opcao valida!" << endl;
+            menuVerDados();
+            break;
+    }
+}
+
+void Gestor::menuCarregar(){
+    cout << "Selecione a opcao: \n";
+    cout << "1: Carregar lista de turmas \n";
+    cout << "2: Carregar lista de estudantes \n";
+    cout << "3: Carregar lista de aulas \n";
+    cout << "4: Voltar atras \n";
+    int i;
+    cin >> i;
+    switch (i) {
+        case 1:
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+        case 4:
+            break;
+        default:
+            cout << "Selecione uma opcao valida!" << endl;
+            menuCarregar();
+            break;
+    }
+}
+
+void Gestor::menuAlterar(){
+    cout << "Selecione a opcao: \n";
+    cout << "1: Remover estudante de turma/UC \n";
+    cout << "2: Adicionar estudante a uma turma/UC \n";
+    cout << "3: Alterar a turma/UC de um estudante \n";
+    cout << "4: Alterar um conjunto de turmas/UCs de um estudante \n";
+    cout << "5: Voltar atras \n";
+    int i;
+    cin >> i;
+    switch (i) {
+        case 1:
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        default:
+            cout << "Selecione uma opcao valida!" << endl;
+            menuAlterar();
+            break;
+    }
+}
+
+void Gestor::mainMenu(){
+    cout << "Selecione a opcao: \n";
+    cout << "1: Carregar Dados \n";
+    cout << "2: Alterar Dados \n";
+    cout << "3: Ver Dados \n";
+    cout << "4: Sair \n";
+    int i;
+    cin >> i;
+    switch (i) {
+        case 1:
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+        case 4:
+            return;
+        default:
+            cout << "Selecione uma opcao valida!" << endl;
+    }
 }

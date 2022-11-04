@@ -16,6 +16,7 @@ class TurmaH: public UCTurma{
         int nEstudantes = 0;
     public:
         TurmaH(const string &codUC,const string &codTurma);
+        TurmaH();
 
         list<Slot>& getHoraUCTurma();
         int getNEstudantes() const;

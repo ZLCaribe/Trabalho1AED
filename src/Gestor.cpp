@@ -8,14 +8,16 @@
 #include "UCTurma.h"
 
 using namespace std;
-void Gestor::processarPedido() {
+bool Gestor::processarPedido() {
+    if(this->pedidosFila.empty()) return false;
     Pedido pedidoAtual = this->pedidosFila.front();
+    this->pedidosFila.pop();
     vector<Slot> novoHorario;
     switch (pedidoAtual.getTipoPedido()) {
         case REMOVER:
             pedidoAtual.getEstudante().rmUCTurma(pedidoAtual.getUCDesejadas().at(0));
             this->getTurmaH(pedidoAtual.getUCDesejadas().at(0)).operator--();
-            break;
+            return true;
         case ADICIONAR:
         case ALTERAR:
         case ALTERARCONJ:
@@ -25,11 +27,12 @@ void Gestor::processarPedido() {
               && Gestor::compativel(this->novoHorario(pedidoAtual.getEstudante().getTurmas(),
                                                              pedidoAtual.getUCDesejadas()))){
                 //TODO fazer troca ou adição (ZL)
-            }else
+                return true;
+            }else {
                 this->pedidosRejeitados.push_back(pedidoAtual);
-            break;
+                return false;
+            }
     }
-    this->pedidosFila.pop();
 }
 
 void Gestor::guardarPedido(const Pedido& pedido) {
@@ -188,6 +191,7 @@ TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     for(auto turma : this->horario)
         if(turma.getCodUC() == ucTurma.getCodUC() && turma.getCodTurma() == ucTurma.getCodTurma())
             return turma;
+    return {};
 }
 
 string Gestor::getEstudanteHorario(string studentCode){
@@ -208,33 +212,38 @@ string Gestor::getEstudanteHorario(string studentCode){
 }
 
 void Gestor::menuVerDados(){
-    cout << "Selecione a opcao: \n";
-    cout << "1: Ocupação de turmas/ano/UC \n";
-    cout << "2: Horário de determinado estudante \n";
-    cout << "3: Estudantes em determinada turma/UC/ano  \n";
-    cout << "4: Estudantes com mais de n UCs \n";
-    cout << "5: Voltar atras \n";
-    int i;
-    cin >> i;
-    switch (i) {
-        case 1:
+    int i = 0;
+    while(i != 5) {
+        cout << "Selecione a opcao: \n";
+        cout << "1: Ocupação de turmas/ano/UC \n";
+        cout << "2: Horário de determinado estudante \n";
+        cout << "3: Estudantes em determinada turma/UC/ano  \n";
+        cout << "4: Estudantes com mais de n UCs \n";
+        cout << "5: Voltar atras \n";
+        cin >> i;
+        switch (i) {
+            case 1:
 
-            break;
-        case 2:
+                break;
+            case 2:
 
-            break;
-        case 3:
+                break;
+            case 3:
 
-            break;
-        case 4:
-            break;
-        default:
-            cout << "Selecione uma opcao valida!" << endl;
-            menuVerDados();
-            break;
+                break;
+            case 4:
+                break;
+            case 5:
+                cout << "A voltar..." << endl;
+                break;
+            default:
+                cout << "Selecione uma opcao valida!" << endl;
+                break;
+        }
     }
 }
 
+//Acho que não precisa, podemos ler sempre a informação toda no início do programa por default
 void Gestor::menuCarregar(){
     cout << "Selecione a opcao: \n";
     cout << "1: Carregar lista de turmas \n";
@@ -263,56 +272,69 @@ void Gestor::menuCarregar(){
 }
 
 void Gestor::menuAlterar(){
-    cout << "Selecione a opcao: \n";
-    cout << "1: Remover estudante de turma/UC \n";
-    cout << "2: Adicionar estudante a uma turma/UC \n";
-    cout << "3: Alterar a turma/UC de um estudante \n";
-    cout << "4: Alterar um conjunto de turmas/UCs de um estudante \n";
-    cout << "5: Voltar atras \n";
-    int i;
-    cin >> i;
-    switch (i) {
-        case 1:
+    int i = 0;
+    while(i != 5) {
+        cout << "Selecione a opcao: \n";
+        cout << "1: Remover estudante de turma/UC \n";
+        cout << "2: Adicionar estudante a uma turma/UC \n";
+        cout << "3: Alterar a turma/UC de um estudante \n";
+        cout << "4: Alterar um conjunto de turmas/UCs de um estudante \n";
+        cout << "5: Voltar atras \n";
+        cin >> i;
+        switch (i) {
+            case 1:
 
-            break;
-        case 2:
+                break;
+            case 2:
 
-            break;
-        case 3:
+                break;
+            case 3:
 
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        default:
-            cout << "Selecione uma opcao valida!" << endl;
-            menuAlterar();
-            break;
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            default:
+                cout << "Selecione uma opcao valida!" << endl;
+                break;
+        }
     }
 }
 
 void Gestor::mainMenu(){
-    cout << "Selecione a opcao: \n";
-    cout << "1: Carregar Dados \n";
-    cout << "2: Alterar Dados \n";
-    cout << "3: Ver Dados \n";
-    cout << "4: Sair \n";
-    int i;
-    cin >> i;
-    switch (i) {
-        case 1:
-
-            break;
-        case 2:
-
-            break;
-        case 3:
-
-            break;
-        case 4:
-            return;
-        default:
-            cout << "Selecione uma opcao valida!" << endl;
+    int i = 0;
+    while(i != 4){
+        cout << "Selecione a opcao: \n";
+        cout << "1: Novo pedido de alteração de turma\n";
+        cout << "2: Processar pedido de alteração de turma \n";
+        cout << "3: Listagens \n";
+        cout << "4: Sair \n";
+        cin >> i;
+        switch (i) {
+            case 1:
+                this->menuAlterar();
+                break;
+            case 2:
+                if(this->processarPedido())
+                    cout << "Pedido satisfeito!" << endl;
+                else
+                    cout << "Pedido rejeitado." << endl;
+                break;
+            case 3:
+                this->menuVerDados();
+                break;
+            case 4:
+                cout << "A sair..." << endl;
+                break;
+            default:
+                cout << "Selecione uma opcao valida!" << endl;
+        }
     }
+}
+
+void Gestor::lerFicheiros() {
+    this->addUC();
+    this->addHorario();
+    this->addEstudante();
 }

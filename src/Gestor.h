@@ -24,8 +24,9 @@ class Gestor {
         list<TurmaH> getTurmasByUC(const string& codUC);
 
         void guardarPedido(const Pedido& pedido);
-        void processarPedido();
+        bool processarPedido();
 
+        void lerFicheiros();
         void addUC();
         void addHorario();
         void addEstudante();

@@ -23,3 +23,5 @@ void TurmaH::operator++() {
 void TurmaH::operator--() {
     this->nEstudantes--;
 }
+
+TurmaH::TurmaH(): UCTurma("","") {}

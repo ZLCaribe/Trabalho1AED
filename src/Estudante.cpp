@@ -56,3 +56,8 @@ UCTurma Estudante::getTurmaByUC(const string& codUC) {
 string Estudante::estudanteToString(){
     return "codigo: " + this->codEst + "nome: " + this->nomeEst;
 }
+
+Estudante::Estudante() {
+    this->codEst = "";
+    this->nomeEst = "";
+}

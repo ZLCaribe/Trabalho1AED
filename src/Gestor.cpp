@@ -27,6 +27,7 @@ bool Gestor::processarPedido() {
               && Gestor::compativel(this->novoHorario(pedidoAtual.getEstudante().getTurmas(),
                                                              pedidoAtual.getUCDesejadas()))){
                 //TODO fazer troca ou adição (ZL)
+
                 return true;
             }else {
                 this->pedidosRejeitados.push_back(pedidoAtual);
@@ -194,11 +195,9 @@ TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     return {};
 }
 
-string Gestor::getEstudanteHorario(string studentCode){
+string Gestor::getEstudanteHorario(Estudante estudante){
       string stringHorario;
-      Estudante estudante(std::move(studentCode),"");
-      auto it = estudantes.find(estudante);
-      for(const auto& turma : it->getTurmas()){
+      for(const auto& turma : estudante.getTurmas()){
           list<Slot> a = getHorariosDeTurma(turma);
           stringHorario += "CodUC: " + turma.getCodUC() + "; CodTurma: " + turma.getCodTurma() + "\n";
           for(auto j : a){
@@ -226,7 +225,7 @@ void Gestor::menuVerDados(){
 
                 break;
             case 2:
-
+                this->verHorariosEstudante();
                 break;
             case 3:
 
@@ -337,4 +336,25 @@ void Gestor::lerFicheiros() {
     this->addUC();
     this->addHorario();
     this->addEstudante();
+}
+
+void Gestor::verHorariosEstudante() {
+    Estudante estudante = this->inputEstudante();
+    cout << estudante.estudanteToString() << endl;
+    cout << this->getEstudanteHorario(estudante);
+}
+
+Estudante Gestor::inputEstudante() {
+    string codEst;
+    Estudante est;
+    auto i = this->estudantes.begin();
+    do {
+        cout << "Insira o codigo do estudante: ";
+        cin >> codEst;
+        est = Estudante(codEst,"");
+        i = this->estudantes.find(est);
+        if(i == this->estudantes.end())
+            cout << "Codigo invalido!" << endl;
+    }while(i == this->estudantes.end());
+    return *i;
 }

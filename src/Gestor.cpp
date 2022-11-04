@@ -279,17 +279,19 @@ void Gestor::menuAlterar(){
         cin >> i;
         switch (i) {
             case 1:
-
+                this->novoPedido(REMOVER);
                 break;
             case 2:
-
+                this->novoPedido(ADICIONAR);
                 break;
             case 3:
-
+                this->novoPedido(ALTERAR);
                 break;
             case 4:
+                this->novoPedidoConj();
                 break;
             case 5:
+                cout << "A voltar..." << endl;
                 break;
             default:
                 cout << "Selecione uma opcao valida!" << endl;
@@ -370,4 +372,25 @@ void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& 
                 turma++;
         }
     }
+}
+
+void Gestor::novoPedido(TipoPedido tipo) {
+    Estudante est = this->inputEstudante();
+    UCTurma turma = this->inputTurmaH();
+    Pedido novoPedido(est,tipo);
+    novoPedido.addUCDesejada(turma);
+    this->pedidosFila.push(novoPedido);
+}
+
+void Gestor::novoPedidoConj() {
+    Estudante est = this->inputEstudante();
+    Pedido novoPedido(est,ALTERARCONJ);
+    int n;
+    cout << "Quantas Turmas quer alterar? ";
+    cin >> n;
+    cout << endl;
+    for(int i = 0; i < n; i++){
+        novoPedido.addUCDesejada(inputTurma());
+    }
+    this->pedidosFila.push(novoPedido);
 }

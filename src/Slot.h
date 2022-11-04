@@ -28,10 +28,12 @@ class Slot {
         void setHoraInicio(float horaInicio);
         void setDuracao(float duracao);
         void settipo(TipoAula tipo);
+
         static DiaSemana stringToDiaSemana(const string& dia);
         static TipoAula stringToTipo(const string& tipo);
         static string DiaSemanaToString(const DiaSemana& dia);
         static string tipoToString(const TipoAula& tipo);
+
         bool conflito(Slot slot) const;
 };
 

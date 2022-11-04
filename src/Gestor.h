@@ -39,6 +39,9 @@ class Gestor {
         static bool compativel(const vector<Slot>& novoHorario);
         bool checkDisponibilidadeTurmas(const vector<UCTurma>& turmas, TipoPedido tipoPedido, Estudante estudante);
         vector<Slot> novoHorario(const list<UCTurma>& turmas, vector<UCTurma> turmasNovas) const;
+        void novoPedido(TipoPedido tipo);
+        void novoPedidoConj();
+
         void menuVerDados();
         void menuAlterar();
         void menuCarregar();

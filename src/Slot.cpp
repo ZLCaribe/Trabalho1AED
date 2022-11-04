@@ -42,7 +42,7 @@ DiaSemana Slot::stringToDiaSemana(const string& dia) {
     if(dia == "Tuesday") return TERCA;
     if(dia == "Wednesday")  return QUARTA;
     if(dia == "Thursday") return QUINTA;
-    if(dia == "Friday") return SEXTA;
+    return SEXTA;
 }
 
 TipoAula Slot::stringToTipo(const string& tipo){
@@ -56,7 +56,7 @@ string Slot::DiaSemanaToString(const DiaSemana& dia) {
     if(dia == TERCA) return "terca";
     if(dia == QUARTA)  return "quarta";
     if(dia == QUINTA) return "quinta";
-    if(dia == SEXTA) return "sexta";
+    return "sexta";
 }
 
 string Slot::tipoToString(const TipoAula& tipo){

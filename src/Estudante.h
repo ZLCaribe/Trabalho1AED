@@ -25,7 +25,7 @@ class Estudante {
 
         void setCodEst(string CodEst);
         void setNomeEst(string nomeEst);
-        string estudanteToString(Estudante& estudante);
+        string estudanteToString();
 
         void addUCTurma(const UCTurma& ucTurma);
         void rmUCTurma(const UCTurma& ucTurma);

@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "Estudante.h"
-#include "Alteracao.h"
 
 using namespace std;
 

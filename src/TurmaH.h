@@ -25,6 +25,8 @@ class TurmaH: public UCTurma{
 
         void operator++();
         void operator--();
+
+        static bool compararNumEstudante(const TurmaH& turma1, const TurmaH& turma2);
 };
 
 #endif //TRABALHO1AED_TURMAH_H

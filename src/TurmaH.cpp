@@ -24,4 +24,10 @@ void TurmaH::operator--() {
     this->nEstudantes--;
 }
 
+bool TurmaH::compararNumEstudante(const TurmaH& turma1, const TurmaH& turma2) {
+    return turma1.nEstudantes < turma2.nEstudantes;
+
+}
 TurmaH::TurmaH(): UCTurma("","") {}
+
+

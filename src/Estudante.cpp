@@ -6,11 +6,11 @@ using namespace std;
 
 Estudante::Estudante(string codEst, string nomeEst):codEst(std::move(codEst)),nomeEst(std::move(nomeEst)){}
 
-string Estudante::getCodEst(){
+string Estudante::getCodEst() const {
     return this->codEst;
 }
 
-string Estudante::getNomeEst(){
+string Estudante::getNomeEst() const {
     return this->nomeEst;
 }
 

@@ -25,6 +25,7 @@ class Gestor {
 
         void guardarPedido(const Pedido& pedido);
         bool processarPedido();
+        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const;
 
         void lerFicheiros();
         void addUC();
@@ -34,6 +35,7 @@ class Gestor {
         string getEstudanteHorario(Estudante estudante);
         string getEstudantesTurma(UCTurma ucTurma);
         TurmaH inputTurma();
+        string getEstudanteHorario(const Estudante& estudante) const;
         Estudante inputEstudante();
         void ocupacao();
 
@@ -42,7 +44,6 @@ class Gestor {
         vector<Slot> novoHorario(const list<UCTurma>& turmas, vector<UCTurma> turmasNovas) const;
         void menuVerDados();
         void menuAlterar();
-        void menuCarregar();
         void mainMenu();
 
         void verHorariosEstudante();

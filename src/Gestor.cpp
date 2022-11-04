@@ -1,9 +1,7 @@
 #include <iostream>
 #include "Gestor.h"
-#include <iostream>
 #include <fstream>
 #include <string>
-#include <utility>
 #include "Estudante.h"
 #include "UCTurma.h"
 
@@ -26,8 +24,7 @@ bool Gestor::processarPedido() {
                                           pedidoAtual.getEstudante())
               && Gestor::compativel(this->novoHorario(pedidoAtual.getEstudante().getTurmas(),
                                                              pedidoAtual.getUCDesejadas()))){
-                //TODO fazer troca ou adição (ZL)
-
+                this->switchTurmasEstudante(pedidoAtual.getEstudante(),pedidoAtual.getUCDesejadas());
                 return true;
             }else {
                 this->pedidosRejeitados.push_back(pedidoAtual);
@@ -155,7 +152,7 @@ bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, Ti
             if(nEstudantes < min)
                 min = turma.getNEstudantes();
         }
-        if(this->getNEstudantesTurma(turmaPedida) - min >= 4)
+        if(this->getNEstudantesTurma(turmaPedida) + 1 - min >= 4)
             return false;
     }
     return true;
@@ -181,7 +178,7 @@ TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     return {};
 }
 
-string Gestor::getEstudanteHorario(Estudante estudante){
+string Gestor::getEstudanteHorario(const Estudante& estudante) const{
       string stringHorario;
       for(const auto& turma : estudante.getTurmas()){
           list<Slot> a = getHorariosDeTurma(turma);
@@ -369,5 +366,22 @@ void Gestor::ocupacao() {
                 " ; Numero de estudantes: " + to_string(i.getNEstudantes()) + "\n";
     }
     cout << s;
+}
+
+
+void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const {
+    auto turmas = estudante.getTurmas();
+    for(auto turma = turmas.begin(); turma != turmas.end();){
+        for(const auto& turmaNova : turmasNovas){
+            if(turma->getCodUC() == turmaNova.getCodUC()){
+                this->getTurmaH(*turma).operator--();
+                turma = estudante.rmUCTurma(*turma);
+                estudante.addUCTurma(turmaNova);
+                this->getTurmaH(turmaNova).operator++();
+                break;
+            }else
+                turma++;
+        }
+    }
 }
 

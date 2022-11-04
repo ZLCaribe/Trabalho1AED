@@ -25,13 +25,14 @@ class Gestor {
 
         void guardarPedido(const Pedido& pedido);
         bool processarPedido();
+        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const;
 
         void lerFicheiros();
         void addUC();
         void addHorario();
         void addEstudante();
 
-        string getEstudanteHorario(Estudante estudante);
+        string getEstudanteHorario(const Estudante& estudante) const;
         UCTurma inputUCTurma();
         Estudante inputEstudante();
 

@@ -30,13 +30,13 @@ void Estudante::addUCTurma(const UCTurma& ucTurma) {
     this->turmas.push_back(ucTurma);
 }
 
-void Estudante::rmUCTurma(const UCTurma& ucTurma) {
+_List_iterator<UCTurma> Estudante::rmUCTurma(const UCTurma& ucTurma) {
     for(auto it = this->turmas.begin(); it != this->turmas.end();it++) {
         if (it->operator==(ucTurma)) {
-            this->turmas.erase(it);
-            break;
+            return this->turmas.erase(it);
         }
     }
+    return this->turmas.end();
 }
 
 bool Estudante::operator<(const Estudante& estudante) const{
@@ -60,4 +60,17 @@ string Estudante::estudanteToString(){
 Estudante::Estudante() {
     this->codEst = "";
     this->nomeEst = "";
+}
+
+void Estudante::switchTurmas(const vector<UCTurma> &turmasNovas) {
+    for(auto turma = this->turmas.begin(); turma != this->turmas.end();){
+        for(const auto& turmaNova : turmasNovas){
+            if(turma->getCodUC() == turmaNova.getCodUC()){
+                turma = this->turmas.erase(turma);
+                this->turmas.push_back(turmaNova);
+                break;
+            }else
+                turma++;
+        }
+    }
 }

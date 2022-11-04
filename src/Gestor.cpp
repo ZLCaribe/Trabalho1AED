@@ -225,7 +225,7 @@ void Gestor::menuVerDados(){
 
                 break;
             case 2:
-
+                this->verHorariosEstudante();
                 break;
             case 3:
 

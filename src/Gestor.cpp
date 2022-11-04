@@ -49,20 +49,6 @@ int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
     return -1;
 }
 
-UCTurma Gestor::inputUCTurma() {
-    string codUc, codTurma;
-    int pos;
-    while(true){
-        cin >> codUc;
-        cin >> codTurma;
-        if((pos = this->getUCTurma(codUc,codTurma)) == -1)
-            break;
-        else
-            cout << "Código da";
-    }
-    return this->horario.at(pos);
-}
-
 vector<string> explode(const string& s, const char& c){
     string buff;
     vector<string> v;
@@ -212,61 +198,31 @@ string Gestor::getEstudanteHorario(Estudante estudante){
 
 void Gestor::menuVerDados(){
     int i = 0;
-    while(i != 5) {
+    while(i != 4) {
         cout << "Selecione a opcao: \n";
         cout << "1: Ocupação de turmas/ano/UC \n";
         cout << "2: Horário de determinado estudante \n";
         cout << "3: Estudantes em determinada turma/UC/ano  \n";
-        cout << "4: Estudantes com mais de n UCs \n";
-        cout << "5: Voltar atras \n";
+        cout << "4: Voltar atras \n";
         cin >> i;
         switch (i) {
             case 1:
-
+                this->ocupacao();
                 break;
             case 2:
                 this->verHorariosEstudante();
                 break;
             case 3:
+                this->verEstudanteTurma();
+                break;
 
-                break;
             case 4:
-                break;
-            case 5:
                 cout << "A voltar..." << endl;
                 break;
             default:
                 cout << "Selecione uma opcao valida!" << endl;
                 break;
         }
-    }
-}
-
-//Acho que não precisa, podemos ler sempre a informação toda no início do programa por default
-void Gestor::menuCarregar(){
-    cout << "Selecione a opcao: \n";
-    cout << "1: Carregar lista de turmas \n";
-    cout << "2: Carregar lista de estudantes \n";
-    cout << "3: Carregar lista de aulas \n";
-    cout << "4: Voltar atras \n";
-    int i;
-    cin >> i;
-    switch (i) {
-        case 1:
-
-            break;
-        case 2:
-
-            break;
-        case 3:
-
-            break;
-        case 4:
-            break;
-        default:
-            cout << "Selecione uma opcao valida!" << endl;
-            menuCarregar();
-            break;
     }
 }
 
@@ -355,6 +311,63 @@ Estudante Gestor::inputEstudante() {
         i = this->estudantes.find(est);
         if(i == this->estudantes.end())
             cout << "Codigo invalido!" << endl;
-    }while(i == this->estudantes.end());
+    }while(i != this->estudantes.end());
     return *i;
 }
+
+string Gestor::getEstudantesTurma(UCTurma ucTurma){
+    string s;
+    for (auto i = estudantes.begin(); i != estudantes.end(); i++){
+        auto k = i->getTurmas();
+        for(auto j = k.begin(); j != k.end();j++){
+            if(j->operator==(ucTurma)){
+                s+= "Codigo: "+ i->getCodEst() + "; Nome:" + i->getNomeEst() + "\n";
+            }
+        }
+
+    }
+
+}
+void Gestor::verEstudanteTurma() {
+    UCTurma ucTurma = this->inputTurma();
+    for (auto i = estudantes.begin(); i != estudantes.end(); i++){
+        auto k = i->getTurmas();
+        for(auto j = k.begin(); j != k.end();j++){
+            if(j->operator==(ucTurma)){
+                cout << i->getCodEst() + i->getNomeEst() << endl;
+            }
+            else if(i == this->estudantes.end()) {
+                cout << "Codigo invalido!" << endl;
+            }
+        }
+
+    }
+}
+
+TurmaH Gestor::inputTurma() {
+    string codTurma, codUC;
+
+    UCTurma ucTurma = UCTurma(codUC,codTurma);
+    auto i = this->horario.begin();
+    do {
+        cout << "Insira o codigo da turma: ";
+        cin >> codTurma;
+        cout << "Insira o codigo da UC";
+        cin >> codUC;
+        if(i == this->horario.end())
+            cout << "Codigo invalido!" << endl;
+    }while(i != this->horario.end());
+    return this->getTurmaH(ucTurma);
+
+}
+
+void Gestor::ocupacao() {
+    string s;
+    sort(horario.begin(),horario.end(), TurmaH::compararNumEstudante);
+    for(auto i: horario){
+        s += "Codigo UC: " + i.getCodUC() +" ; Codigo turma: " + i.getCodTurma() +
+                " ; Numero de estudantes: " + to_string(i.getNEstudantes()) + "\n";
+    }
+    cout << s;
+}
+

@@ -18,8 +18,8 @@ class Estudante {
         Estudante(string codEst, string nomeEst);
         Estudante();
 
-        string getCodEst();
-        string getNomeEst();
+        string getCodEst() const;
+        string getNomeEst() const;
         UCTurma getTurmaByUC(const string& codUC);
         list <UCTurma> getTurmas() const;
 

@@ -32,8 +32,10 @@ class Gestor {
         void addEstudante();
 
         string getEstudanteHorario(Estudante estudante);
-        UCTurma inputUCTurma();
+        string getEstudantesTurma(UCTurma ucTurma);
+        TurmaH inputTurma();
         Estudante inputEstudante();
+        void ocupacao();
 
         static bool compativel(const vector<Slot>& novoHorario);
         bool checkDisponibilidadeTurmas(const vector<UCTurma>& turmas, TipoPedido tipoPedido, Estudante estudante);
@@ -44,6 +46,7 @@ class Gestor {
         void mainMenu();
 
         void verHorariosEstudante();
+        void verEstudanteTurma();
 };
 
 

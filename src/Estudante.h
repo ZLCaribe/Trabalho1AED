@@ -16,6 +16,7 @@ class Estudante {
 
     public:
         Estudante(string codEst, string nomeEst);
+        Estudante();
 
         string getCodEst();
         string getNomeEst();

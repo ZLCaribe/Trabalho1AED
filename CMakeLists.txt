@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(.
         main.cpp
-        src/Alteracao.cpp
         src/Estudante.cpp
         src/Gestor.cpp
         src/Pedido.cpp

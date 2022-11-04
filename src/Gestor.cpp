@@ -32,6 +32,7 @@ bool Gestor::processarPedido() {
                 return false;
             }
     }
+    return false;
 }
 
 void Gestor::guardarPedido(const Pedido& pedido) {
@@ -197,11 +198,13 @@ string Gestor::getEstudanteHorario(const Estudante& estudante) const{
 void Gestor::menuVerDados(){
     int i = 0;
     while(i != 4) {
+        cout << "------------MENU LISTAGENS----------" << endl;
         cout << "Selecione a opcao: \n";
-        cout << "1: Ocupação de turmas/ano/UC \n";
-        cout << "2: Horário de determinado estudante \n";
+        cout << "1: Ocupacao de turmas/ano/UC \n";
+        cout << "2: Horario de determinado estudante \n";
         cout << "3: Estudantes em determinada turma/UC/ano  \n";
         cout << "4: Voltar atras \n";
+        cout << "opcao: ";
         cin >> i;
         switch (i) {
             case 1:
@@ -211,9 +214,8 @@ void Gestor::menuVerDados(){
                 this->verHorariosEstudante();
                 break;
             case 3:
-                this->verEstudanteTurma();
+                this->getEstudantesTurma(this->inputTurma());
                 break;
-
             case 4:
                 cout << "A voltar..." << endl;
                 break;
@@ -227,12 +229,14 @@ void Gestor::menuVerDados(){
 void Gestor::menuAlterar(){
     int i = 0;
     while(i != 5) {
+        cout << "------------MENU ALTERAR----------" << endl;
         cout << "Selecione a opcao: \n";
         cout << "1: Remover estudante de turma/UC \n";
         cout << "2: Adicionar estudante a uma turma/UC \n";
         cout << "3: Alterar a turma/UC de um estudante \n";
         cout << "4: Alterar um conjunto de turmas/UCs de um estudante \n";
         cout << "5: Voltar atras \n";
+        cout << "opcao: ";
         cin >> i;
         switch (i) {
             case 1:
@@ -260,11 +264,13 @@ void Gestor::menuAlterar(){
 void Gestor::mainMenu(){
     int i = 0;
     while(i != 4){
+        cout << "------------MENU PRINCIPAL----------" << endl;
         cout << "Selecione a opcao: \n";
-        cout << "1: Novo pedido de alteração de turma\n";
-        cout << "2: Processar pedido de alteração de turma \n";
+        cout << "1: Novo pedido de alteracao de turma\n";
+        cout << "2: Processar pedido de alteracao de turma \n";
         cout << "3: Listagens \n";
         cout << "4: Sair \n";
+        cout << "opcao: ";
         cin >> i;
         switch (i) {
             case 1:
@@ -315,7 +321,7 @@ Estudante Gestor::inputEstudante() {
     return *i;
 }
 
-string Gestor::getEstudantesTurma(const UCTurma& ucTurma){
+void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
     string s;
     for (const auto & estudante : estudantes){
         auto k = estudante.getTurmas();
@@ -324,25 +330,8 @@ string Gestor::getEstudantesTurma(const UCTurma& ucTurma){
                 s+= "Codigo: "+ estudante.getCodEst() + "; Nome:" + estudante.getNomeEst() + "\n";
             }
         }
-
     }
-
-    return s;
-}
-void Gestor::verEstudanteTurma() {
-    UCTurma ucTurma = this->inputTurma();
-    for (auto i = estudantes.begin(); i != estudantes.end(); i++){
-        auto k = i->getTurmas();
-        for(auto & j : k){
-            if(j.operator==(ucTurma)){
-                cout << i->getCodEst() + i->getNomeEst() << endl;
-            }
-            else if(i == this->estudantes.end()) {
-                cout << "Codigo invalido!" << endl;
-            }
-        }
-
-    }
+    cout << s;
 }
 
 TurmaH Gestor::inputTurma() {

@@ -32,8 +32,7 @@ class Gestor {
         void addHorario();
         void addEstudante();
 
-        string getEstudanteHorario(Estudante estudante);
-        string getEstudantesTurma(const UCTurma& ucTurma);
+        void getEstudantesTurma(const UCTurma& ucTurma);
         TurmaH inputTurma();
         string getEstudanteHorario(const Estudante& estudante) const;
         Estudante inputEstudante();
@@ -50,7 +49,6 @@ class Gestor {
         void mainMenu();
 
         void verHorariosEstudante();
-        void verEstudanteTurma();
 };
 
 

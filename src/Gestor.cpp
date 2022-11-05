@@ -63,48 +63,50 @@ vector<string> explode(const string& s, const char& c){
 
 void Gestor::addUC(){
     string linha;
-    ifstream in("classes_per_uc.csv");
+    ifstream in("../schedule/classes_per_uc.csv");
 
     getline(in,linha);
     while( getline( in, linha) ) {
         vector<string> v{explode(linha, ',')};
-        TurmaH ucTurma(v[2], v[3]);
+        TurmaH ucTurma(v[0], v[1]);
         this->horario.push_back(ucTurma);
     }
 }
 void Gestor::addHorario(){
     string linha;
-    ifstream in("classes.csv");
+    ifstream in("../schedule/classes.csv");
 
     getline(in,linha);
     while( getline( in, linha) ) {
         vector<string> v{explode(linha, ',')};
-        int j = getUCTurma(v[0],v[1]);
+        int j = getUCTurma(v[1],v[0]);
         DiaSemana dia = Slot::stringToDiaSemana(v[2]);
         TipoAula tipo = Slot::stringToTipo(v[5]);
         float hora = stof(v[3]);
         float duracao = stof(v[4]);
         Slot slot(dia,hora,duracao,tipo);
-        this->horario[j].addSlot(slot);
-
+        if(j >= 0)
+            this->horario[j].addSlot(slot);
+        else
+            cout << "UCTurma n existe" << endl;
     }
 }
 
 void Gestor::addEstudante(){
     string linha;
-    ifstream in("students_classes.csv");
+    ifstream in("../schedule/students_classes.csv");
 
     getline(in,linha);
     while( getline( in, linha) ) {
         vector<string> v{explode(linha, ',')};
         Estudante estudante(v[0], v[1]);
         UCTurma ucTurma(v[2],v[3]);
-        this->getTurmaH(ucTurma).operator++();
+        this->getTurmaH(ucTurma).operator++();//TODO
         auto i = this->estudantes.find(estudante);
-        auto est = *i;
-        if(i != this->estudantes.end())
+        if(i != this->estudantes.end()) {
+            auto est = *i;
             est.addUCTurma(ucTurma);
-        else {
+        }else {
             estudante.addUCTurma(ucTurma);
             this->estudantes.insert(estudante);
         }
@@ -214,7 +216,7 @@ void Gestor::menuVerDados(){
                 this->verHorariosEstudante();
                 break;
             case 3:
-                this->getEstudantesTurma(this->inputTurma());
+                this->getEstudantesTurma(this->inputTurma());//TODO
                 break;
             case 4:
                 cout << "A voltar..." << endl;
@@ -317,7 +319,7 @@ Estudante Gestor::inputEstudante() {
         i = this->estudantes.find(est);
         if(i == this->estudantes.end())
             cout << "Codigo invalido!" << endl;
-    }while(i != this->estudantes.end());
+    }while(i == this->estudantes.end());
     return *i;
 }
 
@@ -342,11 +344,11 @@ TurmaH Gestor::inputTurma() {
     do {
         cout << "Insira o codigo da turma: ";
         cin >> codTurma;
-        cout << "Insira o codigo da UC";
+        cout << "Insira o codigo da UC: ";
         cin >> codUC;
         if(i == this->horario.end())
             cout << "Codigo invalido!" << endl;
-    }while(i != this->horario.end());
+    }while(i == this->horario.end());
     return this->getTurmaH(ucTurma);
 
 }

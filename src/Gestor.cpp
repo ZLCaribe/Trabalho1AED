@@ -367,8 +367,9 @@ void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& 
     for(auto turma = turmas.begin(); turma != turmas.end();){
         for(const auto& turmaNova : turmasNovas){
             if(turma->getCodUC() == turmaNova.getCodUC()){
-                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator++();
-                turma = estudante.rmUCTurma(*turma);
+                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator--();
+                auto aux = turma++;
+                estudante.rmUCTurma(*aux);
                 estudante.addUCTurma(turmaNova);
                 this->horario.at(this->getUCTurma(turmaNova.getCodUC(),turmaNova.getCodTurma())).operator++();
                 break;

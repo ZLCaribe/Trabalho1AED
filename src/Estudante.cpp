@@ -30,13 +30,12 @@ void Estudante::addUCTurma(const UCTurma& ucTurma) {
     this->turmas.push_back(ucTurma);
 }
 
-_List_iterator<UCTurma> Estudante::rmUCTurma(const UCTurma& ucTurma) {
+void Estudante::rmUCTurma(const UCTurma& ucTurma) {
     for(auto it = this->turmas.begin(); it != this->turmas.end();it++) {
         if (it->operator==(ucTurma)) {
-            return this->turmas.erase(it);
+            this->turmas.erase(it);
         }
     }
-    return this->turmas.end();
 }
 
 bool Estudante::operator<(const Estudante& estudante) const{

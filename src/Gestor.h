@@ -12,15 +12,11 @@ using namespace std;
 
 class Gestor {
     private:
-/*        set<Estudante> estudantes;
-        vector<TurmaH> horario;
-        queue<Pedido> pedidosFila;
-        vector<Pedido> pedidosRejeitados;*/
-    public:
         set<Estudante> estudantes;
         vector<TurmaH> horario;
         queue<Pedido> pedidosFila;
         vector<Pedido> pedidosRejeitados;
+    public:
 
         int getUCTurma(const string& codUC, const string& codTurma) const;
         TurmaH getTurmaH(const UCTurma& ucTurma) const;

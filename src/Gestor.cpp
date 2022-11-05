@@ -42,6 +42,7 @@ bool Gestor::processarPedido() {
     return false;
 }
 
+
 /**
  * Envia o pedido para a fila dos pedidos a serem ralizados.
  * @param pedido pedido feito
@@ -56,6 +57,7 @@ void Gestor::guardarPedido(const Pedido& pedido) {
  * @param codTurma codigo da turma
  * @return retorna um inteiro com a posição da turma
  */
+
 int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
     for(int i = 0; i < horario.size(); i++){
         if(this->horario[i].getCodTurma() == codTurma && this->horario[i].getCodUC() == codUC) {
@@ -466,8 +468,9 @@ void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& 
     for(auto turma = turmas.begin(); turma != turmas.end();){
         for(const auto& turmaNova : turmasNovas){
             if(turma->getCodUC() == turmaNova.getCodUC()){
-                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator++();
-                turma = estudante.rmUCTurma(*turma);
+                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator--();
+                auto aux = turma++;
+                estudante.rmUCTurma(*aux);
                 estudante.addUCTurma(turmaNova);
                 this->horario.at(this->getUCTurma(turmaNova.getCodUC(),turmaNova.getCodTurma())).operator++();
                 break;

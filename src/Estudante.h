@@ -29,7 +29,9 @@ class Estudante {
         string estudanteToString();
 
         void addUCTurma(const UCTurma& ucTurma);
+
         __list_iterator<UCTurma> rmUCTurma(const UCTurma& ucTurma);
+        void rmUCTurma(const UCTurma& ucTurma);
         void switchTurmas(const vector<UCTurma>& turmasNovas);
 
         bool operator<(const Estudante& estudante) const;

@@ -176,10 +176,7 @@ int Gestor::getNEstudantesTurma(const UCTurma& ucTurma) const {
 }
 
 TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
-    for(auto turma : this->horario)
-        if(turma.getCodUC() == ucTurma.getCodUC() && turma.getCodTurma() == ucTurma.getCodTurma())
-            return turma;
-    return {};
+    return this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma()));
 }
 
 string Gestor::getEstudanteHorario(const Estudante& estudante) const{
@@ -216,7 +213,7 @@ void Gestor::menuVerDados(){
                 this->verHorariosEstudante();
                 break;
             case 3:
-                this->getEstudantesTurma(this->inputTurma());//TODO
+                this->getEstudantesTurma(this->inputTurma());
                 break;
             case 4:
                 cout << "A voltar..." << endl;
@@ -339,18 +336,17 @@ void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
 TurmaH Gestor::inputTurma() {
     string codTurma, codUC;
 
-    UCTurma ucTurma = UCTurma(codUC,codTurma);
-    auto i = this->horario.begin();
+    int i = -1;
     do {
         cout << "Insira o codigo da turma: ";
         cin >> codTurma;
         cout << "Insira o codigo da UC: ";
         cin >> codUC;
-        if(i == this->horario.end())
+        i = this->getUCTurma(codUC,codTurma);
+        if(i == -1)
             cout << "Codigo invalido!" << endl;
-    }while(i == this->horario.end());
-    return this->getTurmaH(ucTurma);
-
+    }while(i == -1);
+    return this->horario.at(i);
 }
 
 void Gestor::ocupacao() {

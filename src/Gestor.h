@@ -30,7 +30,7 @@ class Gestor {
 
         void guardarPedido(const Pedido& pedido);
         bool processarPedido();
-        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const;
+        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas);
 
         void lerFicheiros();
         void addUC();

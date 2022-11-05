@@ -12,10 +12,12 @@ bool Gestor::processarPedido() {
     Pedido pedidoAtual = this->pedidosFila.front();
     this->pedidosFila.pop();
     vector<Slot> novoHorario;
+    UCTurma ucTurma;
     switch (pedidoAtual.getTipoPedido()) {
         case REMOVER:
-            pedidoAtual.getEstudante().rmUCTurma(pedidoAtual.getUCDesejadas().at(0));
-            this->getTurmaH(pedidoAtual.getUCDesejadas().at(0)).operator--();
+            ucTurma = pedidoAtual.getUCDesejadas().at(0);
+            pedidoAtual.getEstudante().rmUCTurma(ucTurma);
+            this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma())).operator--();
             return true;
         case ADICIONAR:
         case ALTERAR:
@@ -87,8 +89,8 @@ void Gestor::addHorario(){
         Slot slot(dia,hora,duracao,tipo);
         if(j >= 0)
             this->horario[j].addSlot(slot);
-        else
-            cout << "UCTurma n existe" << endl;
+        //else
+            //cout << "UCTurma n existe" << endl;
     }
 }
 
@@ -101,7 +103,7 @@ void Gestor::addEstudante(){
         vector<string> v{explode(linha, ',')};
         Estudante estudante(v[0], v[1]);
         UCTurma ucTurma(v[2],v[3]);
-        this->getTurmaH(ucTurma).operator++();//TODO
+        this->horario.at(this->getUCTurma(v[2],v[3])).operator++();
         auto i = this->estudantes.find(estudante);
         if(i != this->estudantes.end()) {
             auto est = *i;
@@ -360,15 +362,15 @@ void Gestor::ocupacao() {
 }
 
 
-void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const {
+void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) {
     auto turmas = estudante.getTurmas();
     for(auto turma = turmas.begin(); turma != turmas.end();){
         for(const auto& turmaNova : turmasNovas){
             if(turma->getCodUC() == turmaNova.getCodUC()){
-                this->getTurmaH(*turma).operator--();
+                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator++();
                 turma = estudante.rmUCTurma(*turma);
                 estudante.addUCTurma(turmaNova);
-                this->getTurmaH(turmaNova).operator++();
+                this->horario.at(this->getUCTurma(turmaNova.getCodUC(),turmaNova.getCodTurma())).operator++();
                 break;
             }else
                 turma++;

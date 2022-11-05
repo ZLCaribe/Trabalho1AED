@@ -24,7 +24,6 @@ class Gestor {
         int getNEstudantesTurma(const UCTurma& ucTurma) const;
         list<TurmaH> getTurmasByUC(const string& codUC);
 
-        void guardarPedido(const Pedido& pedido);
         bool processarPedido();
         void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas);
 

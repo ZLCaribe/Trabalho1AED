@@ -41,10 +41,6 @@ bool Gestor::processarPedido() {
     return false;
 }
 
-void Gestor::guardarPedido(const Pedido& pedido) {
-    this->pedidosFila.push(pedido);
-}
-
 int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
     for(int i = 0; i < horario.size(); i++){
         if(this->horario[i].getCodTurma() == codTurma && this->horario[i].getCodUC() == codUC) {

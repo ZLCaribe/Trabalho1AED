@@ -7,9 +7,11 @@
 #include "UCTurma.h"
 
 using namespace std;
+
 /**
- *
- * @return
+ * Função que trata dos pedidos dos alunos, os pedidos são guardados numa fila e retira-se o primeiro. Caso seja aceite é
+ * realizado o pedido, caso não seja aceite é enviado para uma lista dos pediods recusados.
+ * @return retorna se o pedido é possível ou não.
  */
 bool Gestor::processarPedido() {
     if(this->pedidosFila.empty()) return false;
@@ -38,6 +40,13 @@ bool Gestor::processarPedido() {
     return false;
 }
 
+/**
+ * Procura o horario de uma turma
+ * @param codUC codigo da UC
+ * @param codTurma codigo da turma
+ * @return retorna um inteiro com a posição da turma
+ */
+
 int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
     for(int i = 0; i < horario.size(); i++){
         if(this->horario[i].getCodTurma() == codTurma && this->horario[i].getCodUC() == codUC) {
@@ -47,6 +56,13 @@ int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
     return -1;
 }
 
+/**
+ * A função permite separar as linhas do ficheiro em leitura, por um parâmetro a ser definido. Neste caso separa as palavras de
+ * acordo com a virgula.
+ * @param s linha do ficheiro que esta aser lida
+ * @param c caracter pelo qual se quer separar
+ * @return vetor de strings com as palavras separadas
+ */
 vector<string> explode(const string& s, const char& c){
     string buff;
     vector<string> v;
@@ -60,6 +76,9 @@ vector<string> explode(const string& s, const char& c){
     return v;
 }
 
+/**
+ * ler o ficehrio e criar o objeto turma
+ */
 void Gestor::addUC(){
     string linha;
     ifstream in("../schedule/classes_per_uc.csv");
@@ -71,6 +90,11 @@ void Gestor::addUC(){
         this->horario.push_back(ucTurma);
     }
 }
+
+/**
+ * lê o ficheiro que tem o horário das turmas e cria um segundo objeto com base nas turmas anteriormente criadas e
+ * adiciona a essas turmas o horário e tipo das aulas.
+ */
 void Gestor::addHorario(){
     string linha;
     ifstream in("../schedule/classes.csv");
@@ -91,6 +115,9 @@ void Gestor::addHorario(){
     }
 }
 
+/**
+ * lê o ficheiro dos estudantes e cria um objeto estudante com o seu número, nome e turmas.
+ */
 void Gestor::addEstudante(){
     string linha;
     ifstream in("../schedule/students_classes.csv");
@@ -112,6 +139,11 @@ void Gestor::addEstudante(){
     }
 }
 
+/**
+ * Criado um novo horário esta função vai ver se não há aulas sobrepostas.
+ * @param novoHorario novo horario que foi criado para o aulo ( a ser analisado)
+ * @return True caso nao haja sobreposição e False caso contrário
+ */
 bool Gestor::compativel(const vector<Slot>& novoHorario) {
     for(int i = 0; i < novoHorario.size() - 1; i++)
         for(int j = i + 1; j < novoHorario.size(); j++)
@@ -120,6 +152,12 @@ bool Gestor::compativel(const vector<Slot>& novoHorario) {
     return true;
 }
 
+/**
+ * Pega duas listas de turmas e troca as turmas atuais pelas do pedido, todas as trocadas têm de ter a mesma UC.
+ * @param turmas turmas atuais
+ * @param turmasNovas turmas do pedido
+ * @return retorna um vetor com o novo horário depois de feitas as trocas.
+ */
 vector<Slot> Gestor::novoHorario(const list<UCTurma>& turmas, vector<UCTurma> turmasNovas) const {
     vector<Slot> novoHorario;
     for(const auto& turma : turmas) {
@@ -144,10 +182,22 @@ vector<Slot> Gestor::novoHorario(const list<UCTurma>& turmas, vector<UCTurma> tu
     return novoHorario;
 }
 
+/**
+ * Dada uma turma devolve os harários dessa turma
+ * @param turma turma da qual queremos saber os horários
+ * @return retorna a lista com o horário da turma
+ */
 list<Slot> Gestor::getHorariosDeTurma(const UCTurma& turma) const {
     return this->getTurmaH(turma).getHoraUCTurma();
 }
 
+/**
+ *
+ * @param turmasPedidas
+ * @param tipoPedido
+ * @param estudante
+ * @return
+ */
 bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, TipoPedido tipoPedido, Estudante estudante) {
     for(const auto& turmaPedida : turmasPedidas){
         if(this->getNEstudantesTurma(turmaPedida) >= UCTurma::MAX_ESTUDANTES) return false;
@@ -166,6 +216,7 @@ bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, Ti
     }
     return true;
 }
+
 /**
  * Dada uma cadeira vamos receber todas as turmas dessa cadeira
  * @param codUC cadeira que pretendemos saber as turamas
@@ -190,13 +241,14 @@ int Gestor::getNEstudantesTurma(const UCTurma& ucTurma) const {
 }
 
 /**
- *
- * @param ucTurma
- * @return
+ * Retorna o elemento da TurmaH que está dentro do horário
+ * @param ucTurma turma que se quer retornar
+ * @return retorna o elemento TurmaH
  */
 TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     return this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma()));
 }
+
 /**
  * Para um determinado estudante este metodo procura o seu horario e organiza numa string
  * @param estudante estudante que se pretende ver o horario
@@ -216,6 +268,7 @@ string Gestor::getEstudanteHorario(const Estudante& estudante) const{
       }
       return stringHorario;
 }
+
 /**
  * Menu caso no menu pricipal seja escolhida a terceira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
  */
@@ -249,6 +302,7 @@ void Gestor::menuVerDados(){
         }
     }
 }
+
 /**
  * Menu caso no menu pricipal seja escolhida a primeira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
  */
@@ -286,6 +340,7 @@ void Gestor::menuAlterar(){
         }
     }
 }
+
 /**
  * Cria o menu pricipal, onde vamos escolher a opcao a realizar
  */
@@ -322,18 +377,28 @@ void Gestor::mainMenu(){
     }
 }
 
+/**
+ * Função que chama todas aquelas que vão ler os ficheiros e criar os objetos.
+ */
 void Gestor::lerFicheiros() {
     this->addUC();
     this->addHorario();
     this->addEstudante();
 }
 
+/**
+ * imprime na consola o horário do estudante de acordo com o numero introduzido.
+ */
 void Gestor::verHorariosEstudante() {
     Estudante estudante = this->inputEstudante();
     cout << estudante.estudanteToString() << endl;
     cout << this->getEstudanteHorario(estudante);
 }
 
+/**
+ * Pede o input do estudante (código e nome) de acordo com o que foi pedido no menu.
+ * @return retorna o objeto estudante que coincide com os dados introduzios.
+ */
 Estudante& Gestor::inputEstudante() {
     string codEst;
     Estudante est;
@@ -349,6 +414,10 @@ Estudante& Gestor::inputEstudante() {
     return const_cast<Estudante &>(*i);
 }
 
+/**
+ * Dada uma turma devolve os estudantes dessa turma.
+ * @param ucTurma string com os estudantes organizados por código e numero
+ */
 void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
     string s;
     for (const auto & estudante : estudantes){
@@ -362,6 +431,10 @@ void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
     cout << s;
 }
 
+/**
+ * Pede o input da turma (codigo da turma e codigo da UC) de acordo com o que foi pedido no menu.
+ * @return retorna o objeto turma que coincide com os dados introduzios.
+ */
 TurmaH Gestor::inputTurma() {
     string codTurma, codUC;
 
@@ -378,6 +451,9 @@ TurmaH Gestor::inputTurma() {
     return this->horario.at(i);
 }
 
+/**
+ * Imprime na consola o numero de estudante de cada turma de uma dada UC.
+ */
 void Gestor::ocupacao() {
     string s;
     sort(this->horario.begin(), this->horario.end(),TurmaH::compararNumEstudante);

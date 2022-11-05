@@ -37,6 +37,11 @@ void Slot::settipo(TipoAula tipo) {
     this -> tipo = tipo;
 }
 
+/**
+ * Dada uma string esta função trasnforma no tipo de dado DiaSemana
+ * @param dia string correspondete ao dia da semana
+ * @return DiaSemana correspondete ao que estava na string
+ */
 DiaSemana Slot::stringToDiaSemana(const string& dia) {
     if(dia == "Monday") return SEGUNDA;
     if(dia == "Tuesday") return TERCA;
@@ -45,12 +50,22 @@ DiaSemana Slot::stringToDiaSemana(const string& dia) {
     return SEXTA;
 }
 
+/**
+ * Dada uma string esta função trasnforma no tipo de dado Tipo
+ * @param tipo tipo da aula como string
+ * @return retorna o tipo de aula com o tipo de dado Tipo
+ */
 TipoAula Slot::stringToTipo(const string& tipo){
     if(tipo == "T") return T;
     if(tipo == "TP") return TP;
     else return PL;
 }
 
+/**
+ * Dada um DiaSemana esta função trasnforma em string
+ * @param dia DiaSemana que se prentede alterar para sting
+ * @return string com o dia da semana
+ */
 string Slot::DiaSemanaToString(const DiaSemana& dia) {
     if(dia == SEGUNDA) return "segunda";
     if(dia == TERCA) return "terca";
@@ -59,6 +74,11 @@ string Slot::DiaSemanaToString(const DiaSemana& dia) {
     return "sexta";
 }
 
+/**
+ * Dada um Tipo esta função trasnforma em string
+ * @param tipo Tipo que se prentede alterar para sting
+ * @return string com o tipo de aula
+ */
 string Slot::tipoToString(const TipoAula& tipo){
     if(tipo == T) return "T";
     if(tipo == TP) return "TP";
@@ -72,6 +92,11 @@ Slot::Slot() {
     this->dia = SEGUNDA;
 }
 
+/**
+ * recebe uma aula e verifica se não há sobreposição de horário
+ * @param slot slot com que vai ser feita a comparação
+ * @return caso não haja conflito de horário vai retornar True
+ */
 bool Slot::conflito(Slot slot) const {
     if(this->dia != slot.dia) return false;
     if(this->horaInicio == slot.horaInicio) return true;

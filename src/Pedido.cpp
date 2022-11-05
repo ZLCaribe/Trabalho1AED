@@ -3,10 +3,10 @@
 using namespace std;
 
 Pedido::Pedido(const Estudante &estudante, TipoPedido tipoPedido):
-        estudante(estudante), tipoPedido(tipoPedido) {}
+        estudante(const_cast<Estudante &>(estudante)), tipoPedido(tipoPedido) {}
 
 Estudante &Pedido::getEstudante() {
-    return this -> estudante;
+    return this->estudante;
 }
 
 vector<UCTurma> &Pedido::getUCDesejadas() {

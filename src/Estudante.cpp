@@ -34,6 +34,7 @@ void Estudante::rmUCTurma(const UCTurma& ucTurma) {
     for(auto it = this->turmas.begin(); it != this->turmas.end();it++) {
         if (it->operator==(ucTurma)) {
             this->turmas.erase(it);
+            break;
         }
     }
 }

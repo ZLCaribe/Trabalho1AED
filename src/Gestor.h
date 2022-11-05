@@ -25,7 +25,7 @@ class Gestor {
         list<TurmaH> getTurmasByUC(const string& codUC);
 
         bool processarPedido();
-        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas);
+        void switchTurmasEstudante(Estudante& estudante, vector<UCTurma>& turmasNovas,TipoPedido tipoPedido);
 
         void lerFicheiros();
         void addUC();
@@ -35,7 +35,7 @@ class Gestor {
         void getEstudantesTurma(const UCTurma& ucTurma);
         TurmaH inputTurma();
         string getEstudanteHorario(const Estudante& estudante) const;
-        Estudante inputEstudante();
+        Estudante& inputEstudante();
         void ocupacao();
 
         static bool compativel(const vector<Slot>& novoHorario);

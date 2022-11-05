@@ -26,12 +26,9 @@ bool Gestor::processarPedido() {
         case ADICIONAR:
         case ALTERAR:
         case ALTERARCONJ:
-            if(checkDisponibilidadeTurmas(pedidoAtual.getUCDesejadas(),
-                                          pedidoAtual.getTipoPedido(),
-                                          pedidoAtual.getEstudante())
-              && Gestor::compativel(this->novoHorario(pedidoAtual.getEstudante().getTurmas(),
-                                                             pedidoAtual.getUCDesejadas()))){
-                this->switchTurmasEstudante(pedidoAtual.getEstudante(),pedidoAtual.getUCDesejadas());
+            if(checkDisponibilidadeTurmas(pedidoAtual.getUCDesejadas(),pedidoAtual.getTipoPedido(),pedidoAtual.getEstudante()) &&
+              Gestor::compativel(this->novoHorario(pedidoAtual.getEstudante().getTurmas(), pedidoAtual.getUCDesejadas()))){
+                this->switchTurmasEstudante(pedidoAtual.getEstudante(),pedidoAtual.getUCDesejadas(),pedidoAtual.getTipoPedido());
                 return true;
             }else {
                 this->pedidosRejeitados.push_back(pedidoAtual);
@@ -106,7 +103,7 @@ void Gestor::addEstudante(){
         this->horario.at(this->getUCTurma(v[2],v[3])).operator++();
         auto i = this->estudantes.find(estudante);
         if(i != this->estudantes.end()) {
-            auto est = *i;
+            auto& est = const_cast<Estudante &>(*i);
             est.addUCTurma(ucTurma);
         }else {
             estudante.addUCTurma(ucTurma);
@@ -125,18 +122,24 @@ bool Gestor::compativel(const vector<Slot>& novoHorario) {
 
 vector<Slot> Gestor::novoHorario(const list<UCTurma>& turmas, vector<UCTurma> turmasNovas) const {
     vector<Slot> novoHorario;
-    for(auto turma : turmas) {
-        if(!turmasNovas.empty())
-            for (auto turmaNova = turmasNovas.begin(); turmaNova != turmasNovas.end(); turmaNova++)
-                if (turma.operator==(*turmaNova)) {
+    for(const auto& turma : turmas) {
+        bool flag = true;
+        if(!turmasNovas.empty()) {
+            for (auto turmaNova = turmasNovas.begin(); turmaNova != turmasNovas.end();) {
+                if (turma.getCodUC() == turmaNova->getCodUC()) {
                     for (auto slot: this->getHorariosDeTurma(turma))
                         if (slot.gettipo() != T) { novoHorario.push_back(slot); }
-                    turmasNovas.erase(turmaNova);
+                    turmaNova = turmasNovas.erase(turmaNova);
+                    flag = false;
                     break;
-                }
-        for(auto slot : this->getHorariosDeTurma(turma))
-            if(slot.gettipo() != T)
-                novoHorario.push_back(slot);
+                }else{turmaNova++;}
+            }
+        }
+        if(flag) {
+            for (auto slot: this->getHorariosDeTurma(turma))
+                if (slot.gettipo() != T)
+                    novoHorario.push_back(slot);
+        }
     }
     return novoHorario;
 }
@@ -147,8 +150,8 @@ list<Slot> Gestor::getHorariosDeTurma(const UCTurma& turma) const {
 
 bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, TipoPedido tipoPedido, Estudante estudante) {
     for(const auto& turmaPedida : turmasPedidas){
+        if(this->getNEstudantesTurma(turmaPedida) >= UCTurma::MAX_ESTUDANTES) return false;
         auto turmas = this->getTurmasByUC(turmaPedida.getCodUC());
-        if(turmas.front().getNEstudantes() >= UCTurma::MAX_ESTUDANTES) return false;
         int min = turmas.front().getNEstudantes();
         for(const auto& turma : turmas){
             int nEstudantes = turma.getNEstudantes();
@@ -201,7 +204,8 @@ TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
  */
 string Gestor::getEstudanteHorario(const Estudante& estudante) const{
       string stringHorario;
-      for(const auto& turma : estudante.getTurmas()){
+      auto turmas = estudante.getTurmas();
+      for(const auto& turma : turmas){
           list<Slot> a = getHorariosDeTurma(turma);
           stringHorario += "CodUC: " + turma.getCodUC() + "; CodTurma: " + turma.getCodTurma() + "\n";
           for(auto j : a){
@@ -211,7 +215,6 @@ string Gestor::getEstudanteHorario(const Estudante& estudante) const{
           }
       }
       return stringHorario;
-
 }
 /**
  * Menu caso no menu pricipal seja escolhida a terceira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
@@ -331,7 +334,7 @@ void Gestor::verHorariosEstudante() {
     cout << this->getEstudanteHorario(estudante);
 }
 
-Estudante Gestor::inputEstudante() {
+Estudante& Gestor::inputEstudante() {
     string codEst;
     Estudante est;
     auto i = this->estudantes.begin();
@@ -343,7 +346,7 @@ Estudante Gestor::inputEstudante() {
         if(i == this->estudantes.end())
             cout << "Codigo invalido!" << endl;
     }while(i == this->estudantes.end());
-    return *i;
+    return const_cast<Estudante &>(*i);
 }
 
 void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
@@ -362,7 +365,7 @@ void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
 TurmaH Gestor::inputTurma() {
     string codTurma, codUC;
 
-    int i = -1;
+    int i;
     do {
         cout << "Insira o codigo da turma: ";
         cin >> codTurma;
@@ -385,26 +388,34 @@ void Gestor::ocupacao() {
     cout << s;
 }
 
-
-void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) {
+void Gestor::switchTurmasEstudante(Estudante& estudante, vector<UCTurma>& turmasNovas,TipoPedido tipoPedido) {
     auto turmas = estudante.getTurmas();
-    for(auto turma = turmas.begin(); turma != turmas.end();){
-        for(const auto& turmaNova : turmasNovas){
-            if(turma->getCodUC() == turmaNova.getCodUC()){
-                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator--();
-                auto aux = turma++;
-                estudante.rmUCTurma(*aux);
-                estudante.addUCTurma(turmaNova);
-                this->horario.at(this->getUCTurma(turmaNova.getCodUC(),turmaNova.getCodTurma())).operator++();
-                break;
-            }else
-                turma++;
+    if(tipoPedido != ADICIONAR) {
+        for (auto turma = turmas.begin(); turma != turmas.end();) {
+            for (auto turmaNova = turmasNovas.begin(); turmaNova != turmasNovas.end();) {//const auto& turmaNova : turmasNovas){
+                if (turma->getCodUC() == turmaNova->getCodUC()) {
+                    this->horario.at(this->getUCTurma(turma->getCodUC(), turma->getCodTurma())).operator--();
+                    auto aux = turma++;
+                    estudante.rmUCTurma(*aux);
+                    estudante.addUCTurma(*turmaNova);
+                    turmaNova = turmasNovas.erase(turmaNova);
+                    this->horario.at(this->getUCTurma(turmaNova->getCodUC(), turmaNova->getCodTurma())).operator++();
+                    break;
+                } else {
+                    turmaNova++;
+                }
+            }
+            turma++;
         }
+    }
+    for(const auto& turmaNova : turmasNovas){
+        estudante.addUCTurma(turmaNova);
+        this->horario.at(this->getUCTurma(turmaNova.getCodUC(), turmaNova.getCodTurma())).operator++();
     }
 }
 
 void Gestor::novoPedido(TipoPedido tipo) {
-    Estudante est = this->inputEstudante();
+    Estudante& est = this->inputEstudante();
     Pedido novoPedido(est,tipo);
     novoPedido.addUCDesejada(this->inputTurma());
     this->pedidosFila.push(novoPedido);

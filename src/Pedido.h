@@ -10,7 +10,7 @@ enum TipoPedido{ADICIONAR,REMOVER,ALTERAR,ALTERARCONJ};
 
 class Pedido {
     private:
-        Estudante estudante;
+        Estudante &estudante;
         vector<UCTurma> ucTurmaDesejadas;
         TipoPedido tipoPedido;
     public:

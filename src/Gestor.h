@@ -17,6 +17,7 @@ class Gestor {
         queue<Pedido> pedidosFila;
         vector<Pedido> pedidosRejeitados;
     public:
+
         int getUCTurma(const string& codUC, const string& codTurma) const;
         TurmaH getTurmaH(const UCTurma& ucTurma) const;
         list<Slot> getHorariosDeTurma(const UCTurma& turma) const;
@@ -25,15 +26,14 @@ class Gestor {
 
         void guardarPedido(const Pedido& pedido);
         bool processarPedido();
-        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const;
+        void switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas);
 
         void lerFicheiros();
         void addUC();
         void addHorario();
         void addEstudante();
 
-        string getEstudanteHorario(Estudante estudante);
-        string getEstudantesTurma(UCTurma ucTurma);
+        void getEstudantesTurma(const UCTurma& ucTurma);
         TurmaH inputTurma();
         string getEstudanteHorario(const Estudante& estudante) const;
         Estudante inputEstudante();
@@ -42,12 +42,14 @@ class Gestor {
         static bool compativel(const vector<Slot>& novoHorario);
         bool checkDisponibilidadeTurmas(const vector<UCTurma>& turmas, TipoPedido tipoPedido, Estudante estudante);
         vector<Slot> novoHorario(const list<UCTurma>& turmas, vector<UCTurma> turmasNovas) const;
+        void novoPedido(TipoPedido tipo);
+        void novoPedidoConj();
+
         void menuVerDados();
         void menuAlterar();
         void mainMenu();
 
         void verHorariosEstudante();
-        void verEstudanteTurma();
 };
 
 

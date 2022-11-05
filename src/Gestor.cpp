@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "Gestor.h"
 #include <fstream>
 #include <string>
@@ -15,10 +16,12 @@ bool Gestor::processarPedido() {
     Pedido pedidoAtual = this->pedidosFila.front();
     this->pedidosFila.pop();
     vector<Slot> novoHorario;
+    UCTurma ucTurma;
     switch (pedidoAtual.getTipoPedido()) {
         case REMOVER:
-            pedidoAtual.getEstudante().rmUCTurma(pedidoAtual.getUCDesejadas().at(0));
-            this->getTurmaH(pedidoAtual.getUCDesejadas().at(0)).operator--();
+            ucTurma = pedidoAtual.getUCDesejadas().at(0);
+            pedidoAtual.getEstudante().rmUCTurma(ucTurma);
+            this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma())).operator--();
             return true;
         case ADICIONAR:
         case ALTERAR:
@@ -35,6 +38,7 @@ bool Gestor::processarPedido() {
                 return false;
             }
     }
+    return false;
 }
 
 void Gestor::guardarPedido(const Pedido& pedido) {
@@ -65,48 +69,50 @@ vector<string> explode(const string& s, const char& c){
 
 void Gestor::addUC(){
     string linha;
-    ifstream in("classes_per_uc.csv");
+    ifstream in("../schedule/classes_per_uc.csv");
 
     getline(in,linha);
     while( getline( in, linha) ) {
         vector<string> v{explode(linha, ',')};
-        TurmaH ucTurma(v[2], v[3]);
+        TurmaH ucTurma(v[0], v[1]);
         this->horario.push_back(ucTurma);
     }
 }
 void Gestor::addHorario(){
     string linha;
-    ifstream in("classes.csv");
+    ifstream in("../schedule/classes.csv");
 
     getline(in,linha);
     while( getline( in, linha) ) {
         vector<string> v{explode(linha, ',')};
-        int j = getUCTurma(v[0],v[1]);
+        int j = getUCTurma(v[1],v[0]);
         DiaSemana dia = Slot::stringToDiaSemana(v[2]);
         TipoAula tipo = Slot::stringToTipo(v[5]);
         float hora = stof(v[3]);
         float duracao = stof(v[4]);
         Slot slot(dia,hora,duracao,tipo);
-        this->horario[j].addSlot(slot);
-
+        if(j >= 0)
+            this->horario[j].addSlot(slot);
+        //else
+            //cout << "UCTurma n existe" << endl;
     }
 }
 
 void Gestor::addEstudante(){
     string linha;
-    ifstream in("students_classes.csv");
+    ifstream in("../schedule/students_classes.csv");
 
     getline(in,linha);
     while( getline( in, linha) ) {
         vector<string> v{explode(linha, ',')};
         Estudante estudante(v[0], v[1]);
         UCTurma ucTurma(v[2],v[3]);
-        this->getTurmaH(ucTurma).operator++();
+        this->horario.at(this->getUCTurma(v[2],v[3])).operator++();
         auto i = this->estudantes.find(estudante);
-        auto est = *i;
-        if(i != this->estudantes.end())
+        if(i != this->estudantes.end()) {
+            auto est = *i;
             est.addUCTurma(ucTurma);
-        else {
+        }else {
             estudante.addUCTurma(ucTurma);
             this->estudantes.insert(estudante);
         }
@@ -190,10 +196,7 @@ int Gestor::getNEstudantesTurma(const UCTurma& ucTurma) const {
  * @return
  */
 TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
-    for(auto turma : this->horario)
-        if(turma.getCodUC() == ucTurma.getCodUC() && turma.getCodTurma() == ucTurma.getCodTurma())
-            return turma;
-    return {};
+    return this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma()));
 }
 /**
  * Para um determinado estudante este metodo procura o seu horario e organiza numa string
@@ -220,11 +223,13 @@ string Gestor::getEstudanteHorario(const Estudante& estudante) const{
 void Gestor::menuVerDados(){
     int i = 0;
     while(i != 4) {
+        cout << "------------MENU LISTAGENS----------" << endl;
         cout << "Selecione a opcao: \n";
-        cout << "1: Ocupação de turmas/ano/UC \n";
-        cout << "2: Horário de determinado estudante \n";
+        cout << "1: Ocupacao de turmas/ano/UC \n";
+        cout << "2: Horario de determinado estudante \n";
         cout << "3: Estudantes em determinada turma/UC/ano  \n";
         cout << "4: Voltar atras \n";
+        cout << "opcao: ";
         cin >> i;
         switch (i) {
             case 1:
@@ -234,9 +239,8 @@ void Gestor::menuVerDados(){
                 this->verHorariosEstudante();
                 break;
             case 3:
-                this->verEstudanteTurma();
+                this->getEstudantesTurma(this->inputTurma());
                 break;
-
             case 4:
                 cout << "A voltar..." << endl;
                 break;
@@ -252,26 +256,30 @@ void Gestor::menuVerDados(){
 void Gestor::menuAlterar(){
     int i = 0;
     while(i != 5) {
+        cout << "------------MENU ALTERAR----------" << endl;
         cout << "Selecione a opcao: \n";
         cout << "1: Remover estudante de turma/UC \n";
         cout << "2: Adicionar estudante a uma turma/UC \n";
         cout << "3: Alterar a turma/UC de um estudante \n";
         cout << "4: Alterar um conjunto de turmas/UCs de um estudante \n";
         cout << "5: Voltar atras \n";
+        cout << "opcao: ";
         cin >> i;
         switch (i) {
             case 1:
-
+                this->novoPedido(REMOVER);
                 break;
             case 2:
-
+                this->novoPedido(ADICIONAR);
                 break;
             case 3:
-
+                this->novoPedido(ALTERAR);
                 break;
             case 4:
+                this->novoPedidoConj();
                 break;
             case 5:
+                cout << "A voltar..." << endl;
                 break;
             default:
                 cout << "Selecione uma opcao valida!" << endl;
@@ -285,11 +293,13 @@ void Gestor::menuAlterar(){
 void Gestor::mainMenu(){
     int i = 0;
     while(i != 4){
+        cout << "------------MENU PRINCIPAL----------" << endl;
         cout << "Selecione a opcao: \n";
-        cout << "1: Novo pedido de alteração de turma\n";
-        cout << "2: Processar pedido de alteração de turma \n";
+        cout << "1: Novo pedido de alteracao de turma\n";
+        cout << "2: Processar pedido de alteracao de turma \n";
         cout << "3: Listagens \n";
         cout << "4: Sair \n";
+        cout << "opcao: ";
         cin >> i;
         switch (i) {
             case 1:
@@ -336,60 +346,43 @@ Estudante Gestor::inputEstudante() {
         i = this->estudantes.find(est);
         if(i == this->estudantes.end())
             cout << "Codigo invalido!" << endl;
-    }while(i != this->estudantes.end());
+    }while(i == this->estudantes.end());
     return *i;
 }
 
-string Gestor::getEstudantesTurma(UCTurma ucTurma){
+void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
     string s;
-    for (auto i = estudantes.begin(); i != estudantes.end(); i++){
-        auto k = i->getTurmas();
-        for(auto j = k.begin(); j != k.end();j++){
-            if(j->operator==(ucTurma)){
-                s+= "Codigo: "+ i->getCodEst() + "; Nome:" + i->getNomeEst() + "\n";
+    for (const auto & estudante : estudantes){
+        auto k = estudante.getTurmas();
+        for(auto & j : k){
+            if(j.operator==(ucTurma)){
+                s+= "Codigo: "+ estudante.getCodEst() + "; Nome:" + estudante.getNomeEst() + "\n";
             }
         }
-
     }
-
-}
-void Gestor::verEstudanteTurma() {
-    UCTurma ucTurma = this->inputTurma();
-    for (auto i = estudantes.begin(); i != estudantes.end(); i++){
-        auto k = i->getTurmas();
-        for(auto j = k.begin(); j != k.end();j++){
-            if(j->operator==(ucTurma)){
-                cout << i->getCodEst() + i->getNomeEst() << endl;
-            }
-            else if(i == this->estudantes.end()) {
-                cout << "Codigo invalido!" << endl;
-            }
-        }
-
-    }
+    cout << s;
 }
 
 TurmaH Gestor::inputTurma() {
     string codTurma, codUC;
 
-    UCTurma ucTurma = UCTurma(codUC,codTurma);
-    auto i = this->horario.begin();
+    int i = -1;
     do {
         cout << "Insira o codigo da turma: ";
         cin >> codTurma;
-        cout << "Insira o codigo da UC";
+        cout << "Insira o codigo da UC: ";
         cin >> codUC;
-        if(i == this->horario.end())
+        i = this->getUCTurma(codUC,codTurma);
+        if(i == -1)
             cout << "Codigo invalido!" << endl;
-    }while(i != this->horario.end());
-    return this->getTurmaH(ucTurma);
-
+    }while(i == -1);
+    return this->horario.at(i);
 }
 
 void Gestor::ocupacao() {
     string s;
-    sort(horario.begin(),horario.end(), TurmaH::compararNumEstudante);
-    for(auto i: horario){
+    sort(this->horario.begin(), this->horario.end(),TurmaH::compararNumEstudante);
+    for(const auto& i: horario){
         s += "Codigo UC: " + i.getCodUC() +" ; Codigo turma: " + i.getCodTurma() +
                 " ; Numero de estudantes: " + to_string(i.getNEstudantes()) + "\n";
     }
@@ -397,15 +390,15 @@ void Gestor::ocupacao() {
 }
 
 
-void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) const {
+void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& turmasNovas) {
     auto turmas = estudante.getTurmas();
     for(auto turma = turmas.begin(); turma != turmas.end();){
         for(const auto& turmaNova : turmasNovas){
             if(turma->getCodUC() == turmaNova.getCodUC()){
-                this->getTurmaH(*turma).operator--();
+                this->horario.at(this->getUCTurma(turma->getCodUC(),turma->getCodTurma())).operator++();
                 turma = estudante.rmUCTurma(*turma);
                 estudante.addUCTurma(turmaNova);
-                this->getTurmaH(turmaNova).operator++();
+                this->horario.at(this->getUCTurma(turmaNova.getCodUC(),turmaNova.getCodTurma())).operator++();
                 break;
             }else
                 turma++;
@@ -413,3 +406,22 @@ void Gestor::switchTurmasEstudante(Estudante& estudante, const vector<UCTurma>& 
     }
 }
 
+void Gestor::novoPedido(TipoPedido tipo) {
+    Estudante est = this->inputEstudante();
+    Pedido novoPedido(est,tipo);
+    novoPedido.addUCDesejada(this->inputTurma());
+    this->pedidosFila.push(novoPedido);
+}
+
+void Gestor::novoPedidoConj() {
+    Estudante est = this->inputEstudante();
+    Pedido novoPedido(est,ALTERARCONJ);
+    int n;
+    cout << "Quantas Turmas quer alterar? ";
+    cin >> n;
+    cout << endl;
+    for(int i = 0; i < n; i++){
+        novoPedido.addUCDesejada(inputTurma());
+    }
+    this->pedidosFila.push(novoPedido);
+}

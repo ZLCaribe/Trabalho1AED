@@ -10,8 +10,6 @@ using namespace std;
 
 class TurmaH: public UCTurma{
     private:
-        string codUC;
-        string codTurma;
         list<Slot> horarios;
         int nEstudantes = 0;
     public:

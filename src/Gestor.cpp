@@ -7,6 +7,10 @@
 #include "UCTurma.h"
 
 using namespace std;
+/**
+ *
+ * @return
+ */
 bool Gestor::processarPedido() {
     if(this->pedidosFila.empty()) return false;
     Pedido pedidoAtual = this->pedidosFila.front();
@@ -163,7 +167,11 @@ bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, Ti
     }
     return true;
 }
-
+/**
+ * Dada uma cadeira vamos receber todas as turmas dessa cadeira
+ * @param codUC cadeira que pretendemos saber as turamas
+ * @return lista de turmas da cdeira pretendida
+ */
 list<TurmaH> Gestor::getTurmasByUC(const string& codUC) {
     list<TurmaH> turmas;
     for(const auto& turma : this->horario){
@@ -173,14 +181,28 @@ list<TurmaH> Gestor::getTurmasByUC(const string& codUC) {
     return turmas;
 }
 
+/**
+ * o metodo devolve um inteiro com o numero de estudantes que estao numa certa turma
+ * @param ucTurma turma da qual se pretende saber o numero de alunos
+ * @return numero de alunos da turma
+ */
 int Gestor::getNEstudantesTurma(const UCTurma& ucTurma) const {
     return this->getTurmaH(ucTurma).getNEstudantes();
 }
 
+/**
+ *
+ * @param ucTurma
+ * @return
+ */
 TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     return this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma()));
 }
-
+/**
+ * Para um determinado estudante este metodo procura o seu horario e organiza numa string
+ * @param estudante estudante que se pretende ver o horario
+ * @return string com o horario do estudante numa formatacao do genero (Dia: ; Hora de inicio: ; Tipo: )
+ */
 string Gestor::getEstudanteHorario(const Estudante& estudante) const{
       string stringHorario;
       for(const auto& turma : estudante.getTurmas()){
@@ -195,7 +217,9 @@ string Gestor::getEstudanteHorario(const Estudante& estudante) const{
       return stringHorario;
 
 }
-
+/**
+ * Menu caso no menu pricipal seja escolhida a terceira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
+ */
 void Gestor::menuVerDados(){
     int i = 0;
     while(i != 4) {
@@ -226,7 +250,9 @@ void Gestor::menuVerDados(){
         }
     }
 }
-
+/**
+ * Menu caso no menu pricipal seja escolhida a primeira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
+ */
 void Gestor::menuAlterar(){
     int i = 0;
     while(i != 5) {
@@ -261,7 +287,9 @@ void Gestor::menuAlterar(){
         }
     }
 }
-
+/**
+ * Cria o menu pricipal, onde vamos escolher a opcao a realizar
+ */
 void Gestor::mainMenu(){
     int i = 0;
     while(i != 4){

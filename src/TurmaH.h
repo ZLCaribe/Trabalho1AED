@@ -1,7 +1,6 @@
 #ifndef TRABALHO1AED_TURMAH_H
 #define TRABALHO1AED_TURMAH_H
 
-#include <string>
 #include <list>
 #include "Slot.h"
 #include "UCTurma.h"

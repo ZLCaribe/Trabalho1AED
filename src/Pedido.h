@@ -1,7 +1,6 @@
 #ifndef TRABALHO1AED_PEDIDO_H
 #define TRABALHO1AED_PEDIDO_H
 
-#include <vector>
 #include "Estudante.h"
 
 using namespace std;

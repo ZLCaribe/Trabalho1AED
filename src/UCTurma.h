@@ -1,7 +1,8 @@
 #ifndef TRABALHO1AED_UCTURMA_H
 #define TRABALHO1AED_UCTURMA_H
 
-#include "string"
+#include <utility>
+#include <string>
 
 using namespace std;
 

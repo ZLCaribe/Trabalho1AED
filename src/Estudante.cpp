@@ -31,6 +31,7 @@ void Estudante::addUCTurma(const UCTurma& ucTurma) {
 /**
  * Rremove a turma da lista de turmas do estudante.
  * @param ucTurma turma a remover
+ * @complexity O(n)
  */
 void Estudante::rmUCTurma(const UCTurma& ucTurma) {
     for(auto it = this->turmas.begin(); it != this->turmas.end();it++) {
@@ -53,6 +54,7 @@ bool Estudante::operator==(const Estudante& estudante) const{
  * Quando a função recebe um codigo de uma UC, esta devolve a turma do estudante naquela UC
  * @param codUC codigo da UC que queremos encontrar a turma
  * @return retorna a Turma do aluno naquela UC
+ * @complexity O(n)
  */
 UCTurma Estudante::getTurmaByUC(const string& codUC) {
     for(auto ucTurma : this->turmas)

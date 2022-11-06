@@ -60,16 +60,3 @@ Estudante::Estudante() {
     this->codEst = "";
     this->nomeEst = "";
 }
-
-void Estudante::switchTurmas(const vector<UCTurma> &turmasNovas) {
-    for(auto turma = this->turmas.begin(); turma != this->turmas.end();){
-        for(const auto& turmaNova : turmasNovas){
-            if(turma->getCodUC() == turmaNova.getCodUC()){
-                turma = this->turmas.erase(turma);
-                this->turmas.push_back(turmaNova);
-                break;
-            }else
-                turma++;
-        }
-    }
-}

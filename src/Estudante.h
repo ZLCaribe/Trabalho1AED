@@ -29,7 +29,6 @@ class Estudante {
 
         void addUCTurma(const UCTurma& ucTurma);
         void rmUCTurma(const UCTurma& ucTurma);
-        void switchTurmas(const vector<UCTurma>& turmasNovas);
 
         bool operator<(const Estudante& estudante) const;
         bool operator==(const Estudante& estudante) const;

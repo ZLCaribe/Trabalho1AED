@@ -22,9 +22,6 @@ class Estudante {
         UCTurma getTurmaByUC(const string& codUC);
         list <UCTurma> getTurmas() const;
 
-
-        void setCodEst(string CodEst);
-        void setNomeEst(string nomeEst);
         string estudanteToString();
 
         void addUCTurma(const UCTurma& ucTurma);

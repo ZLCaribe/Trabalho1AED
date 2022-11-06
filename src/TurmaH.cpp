@@ -17,27 +17,27 @@ int TurmaH::getNEstudantes() const {
 }
 
 /**
- * aumenta o contador do numero de estudantes numa turma
- * @complexity O(1)
+ * aumenta o contador do numero de estudantes numa turma<br>
+ * COMPLEXIDADE O(1)
  */
 void TurmaH::operator++() {
     this->nEstudantes++;
 }
 
 /**
- * diminui o contador do numero de estudantes numa turma.
- * @complexity O(1)
+ * diminui o contador do numero de estudantes numa turma.<br>
+ * COMPLEXIDADE O(1)
  */
 void TurmaH::operator--() {
     this->nEstudantes--;
 }
 
 /**
- * compara o numero de estudantes em duas turmas.
+ * compara o numero de estudantes em duas turmas.<br>
+ * COMPLEXIDADE O(1)
  * @param turma1 primeira turma a comparar
  * @param turma2 segunda turma a comparar
  * @return se a primeira turma tiver mais estudantes do que a segunda retorna True e Fals caso seja ao contrário.
- * @complexity O(1)
  */
 bool TurmaH::compararNumEstudante(TurmaH turma1, TurmaH turma2) {
     return turma1.nEstudantes > turma2.nEstudantes;

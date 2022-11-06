@@ -38,10 +38,10 @@ void Slot::settipo(TipoAula tipo) {
 }
 
 /**
- * Dada uma string esta função trasnforma no tipo de dado DiaSemana
+ * Dada uma string esta função trasnforma no tipo de dado DiaSemana<br>
+ * COMPLEXIDADE O(1)
  * @param dia string correspondete ao dia da semana
  * @return DiaSemana correspondete ao que estava na string
- * @complexity O(1)
  */
 DiaSemana Slot::stringToDiaSemana(const string& dia) {
     if(dia == "Monday") return SEGUNDA;
@@ -52,10 +52,10 @@ DiaSemana Slot::stringToDiaSemana(const string& dia) {
 }
 
 /**
- * Dada uma string esta função trasnforma no tipo de dado Tipo
+ * Dada uma string esta função trasnforma no tipo de dado Tipo<br>
+ * COMPLEXIDADE O(1)
  * @param tipo tipo da aula como string
  * @return retorna o tipo de aula com o tipo de dado Tipo
- * @complexity O(1)
  */
 TipoAula Slot::stringToTipo(const string& tipo){
     if(tipo == "T") return T;
@@ -64,10 +64,10 @@ TipoAula Slot::stringToTipo(const string& tipo){
 }
 
 /**
- * Dada um DiaSemana esta função trasnforma em string
+ * Dada um DiaSemana esta função trasnforma em string<br>
+ * COMPLEXIDADE O(1)
  * @param dia DiaSemana que se prentede alterar para sting
  * @return string com o dia da semana
- * @complexity O(1)
  */
 string Slot::DiaSemanaToString(const DiaSemana& dia) {
     if(dia == SEGUNDA) return "segunda";
@@ -78,10 +78,10 @@ string Slot::DiaSemanaToString(const DiaSemana& dia) {
 }
 
 /**
- * Dada um Tipo esta função trasnforma em string
+ * Dada um Tipo esta função trasnforma em string<br>
+ * COMPLEXIDADE O(1)
  * @param tipo Tipo que se prentede alterar para sting
  * @return string com o tipo de aula
- * @complexity O(1)
  */
 string Slot::tipoToString(const TipoAula& tipo){
     if(tipo == T) return "T";
@@ -97,10 +97,10 @@ Slot::Slot() {
 }
 
 /**
- * recebe uma aula e verifica se não há sobreposição de horário
+ * recebe uma aula e verifica se não há sobreposição de horário<br>
+ * COMPLEXIDADE O(1)
  * @param slot slot com que vai ser feita a comparação
  * @return caso não haja conflito de horário vai retornar True
- * @complexity O(1)
  */
 bool Slot::conflito(Slot slot) const {
     if(this->dia != slot.dia) return false;

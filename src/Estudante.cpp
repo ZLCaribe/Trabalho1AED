@@ -16,22 +16,15 @@ list <UCTurma> Estudante::getTurmas() const {
     return this->turmas;
 }
 
-void Estudante::setCodEst(string codEst){
-    this->codEst = std::move(codEst);
-}
-
-void Estudante::setNomeEst(string nomeEst){
-    this->nomeEst = std::move(nomeEst);
-}
-
 void Estudante::addUCTurma(const UCTurma& ucTurma) {
     this->turmas.push_back(ucTurma);
 }
 
 /**
- * Rremove a turma da lista de turmas do estudante.
+ * Rremove a turma da lista de turmas do estudante.<br>
+ * COMPLEXIDADE O(n)<br>
+ * n = número de  turmas do estudante
  * @param ucTurma turma a remover
- * @complexity O(n)
  */
 void Estudante::rmUCTurma(const UCTurma& ucTurma) {
     for(auto it = this->turmas.begin(); it != this->turmas.end();it++) {
@@ -51,10 +44,11 @@ bool Estudante::operator==(const Estudante& estudante) const{
 }
 
 /**
- * Quando a função recebe um codigo de uma UC, esta devolve a turma do estudante naquela UC
+ * Quando a função recebe um codigo de uma UC, esta devolve a turma do estudante naquela UC<br>
+ * COMPLEXIDADE O(n)<br>
+ * n = número de turmas do estudante
  * @param codUC codigo da UC que queremos encontrar a turma
  * @return retorna a Turma do aluno naquela UC
- * @complexity O(n)
  */
 UCTurma Estudante::getTurmaByUC(const string& codUC) {
     for(auto ucTurma : this->turmas)

@@ -1,10 +1,4 @@
-#include <iostream>
-#include <algorithm>
 #include "Gestor.h"
-#include <fstream>
-#include <string>
-#include "Estudante.h"
-#include "UCTurma.h"
 
 using namespace std;
 
@@ -12,6 +6,7 @@ using namespace std;
  * Função que trata dos pedidos dos alunos, os pedidos são guardados numa fila e retira-se o primeiro. Caso seja aceite é
  * realizado o pedido, caso não seja aceite é enviado para uma lista dos pediods recusados.
  * @return retorna se o pedido é possível ou não.
+ * @complexity //TODO
  */
 bool Gestor::processarPedido() {
     if(this->pedidosFila.empty()) return false;
@@ -45,6 +40,8 @@ bool Gestor::processarPedido() {
  * @param codUC codigo da UC
  * @param codTurma codigo da turma
  * @return retorna um inteiro com a posição da turma
+ * @complexity O(n)
+ * n = número de turmas
  */
 
 int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
@@ -62,6 +59,8 @@ int Gestor::getUCTurma(const string& codUC, const string& codTurma) const{
  * @param s linha do ficheiro que esta aser lida
  * @param c caracter pelo qual se quer separar
  * @return vetor de strings com as palavras separadas
+ * @complexity O(n)
+ * n = número de caracteres na string
  */
 vector<string> explode(const string& s, const char& c){
     string buff;
@@ -78,6 +77,9 @@ vector<string> explode(const string& s, const char& c){
 
 /**
  * ler o ficehrio e criar o objeto turma
+ * @complexity O(n*c)
+ * n = número de linhas do ficheiro
+ * c = número de caracteres em cada linha
  */
 void Gestor::addUC(){
     string linha;
@@ -94,6 +96,10 @@ void Gestor::addUC(){
 /**
  * lê o ficheiro que tem o horário das turmas e cria um segundo objeto com base nas turmas anteriormente criadas e
  * adiciona a essas turmas o horário e tipo das aulas.
+ * @complexity O(n*k*c)
+ * n = número de linhas do ficheiro
+ * k = número de turmas
+ * c = número de caracteres em cada linha
  */
 void Gestor::addHorario(){
     string linha;
@@ -110,13 +116,16 @@ void Gestor::addHorario(){
         Slot slot(dia,hora,duracao,tipo);
         if(j >= 0)
             this->horario[j].addSlot(slot);
-        //else
-            //cout << "UCTurma n existe" << endl;
     }
 }
 
 /**
  * lê o ficheiro dos estudantes e cria um objeto estudante com o seu número, nome e turmas.
+ * @complexity O(n*(k+2log(j))*c)
+ * n = número de linhas no ficheiro
+ * k = número de turmas
+ * j = número de estudantes
+ * c = número de caracteres em cada linha
  */
 void Gestor::addEstudante(){
     string linha;
@@ -143,6 +152,8 @@ void Gestor::addEstudante(){
  * Criado um novo horário esta função vai ver se não há aulas sobrepostas.
  * @param novoHorario novo horario que foi criado para o aulo ( a ser analisado)
  * @return True caso nao haja sobreposição e False caso contrário
+ * @complexity O(n^2)
+ * n = número de aulas
  */
 bool Gestor::compativel(const vector<Slot>& novoHorario) {
     for(int i = 0; i < novoHorario.size() - 1; i++)
@@ -157,6 +168,7 @@ bool Gestor::compativel(const vector<Slot>& novoHorario) {
  * @param turmas turmas atuais
  * @param turmasNovas turmas do pedido
  * @return retorna um vetor com o novo horário depois de feitas as trocas.
+ * @complexity //TODO
  */
 vector<Slot> Gestor::novoHorario(const list<UCTurma>& turmas, vector<UCTurma> turmasNovas) const {
     vector<Slot> novoHorario;
@@ -186,17 +198,23 @@ vector<Slot> Gestor::novoHorario(const list<UCTurma>& turmas, vector<UCTurma> tu
  * Dada uma turma devolve os harários dessa turma
  * @param turma turma da qual queremos saber os horários
  * @return retorna a lista com o horário da turma
+ * @complexity O(n)
+ * n = número de turmas
  */
 list<Slot> Gestor::getHorariosDeTurma(const UCTurma& turma) const {
     return this->getTurmaH(turma).getHoraUCTurma();
 }
 
 /**
- *
- * @param turmasPedidas
- * @param tipoPedido
- * @param estudante
- * @return
+ * Verifica se um estudante pode ser adicionado num conjunto de turmas//TODO
+ * @param turmasPedidas Turmas que o estudante pretende ser adicionado
+ * @param tipoPedido Pode ser alteração ou adição
+ * @param estudante Estudante que pretende ser adicionados as turmas
+ * @return TRUE se as turmas não estão cheias e a adição do estudante nelas não vai gerar desequilíbrio<br>
+ * FALSE se alguma das turmas já está cheia ou a adição de um estudante nela iria gerar ou acentuar um desequilíbrio<br>
+ * Nota: Considerar que existe desequilíbrio nas turmas de uma UC se a diferença
+ * entre o nº de estudantes em duas quaisquer turmas dessa UC é >=4
+ * @complexity //TODO
  */
 bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, TipoPedido tipoPedido, Estudante estudante) {
     for(const auto& turmaPedida : turmasPedidas){
@@ -221,6 +239,8 @@ bool Gestor::checkDisponibilidadeTurmas(const vector<UCTurma>& turmasPedidas, Ti
  * Dada uma cadeira vamos receber todas as turmas dessa cadeira
  * @param codUC cadeira que pretendemos saber as turamas
  * @return lista de turmas da cdeira pretendida
+ * @complexity O(n)
+ * n = número de turmas
  */
 list<TurmaH> Gestor::getTurmasByUC(const string& codUC) {
     list<TurmaH> turmas;
@@ -235,6 +255,8 @@ list<TurmaH> Gestor::getTurmasByUC(const string& codUC) {
  * o metodo devolve um inteiro com o numero de estudantes que estao numa certa turma
  * @param ucTurma turma da qual se pretende saber o numero de alunos
  * @return numero de alunos da turma
+ * @complexity O(n)
+ * n = número de turmas
  */
 int Gestor::getNEstudantesTurma(const UCTurma& ucTurma) const {
     return this->getTurmaH(ucTurma).getNEstudantes();
@@ -244,6 +266,8 @@ int Gestor::getNEstudantesTurma(const UCTurma& ucTurma) const {
  * Retorna o elemento da TurmaH que está dentro do horário
  * @param ucTurma turma que se quer retornar
  * @return retorna o elemento TurmaH
+ * @complexity O(n)
+ * n = número de turmas
  */
 TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
     return this->horario.at(this->getUCTurma(ucTurma.getCodUC(),ucTurma.getCodTurma()));
@@ -253,6 +277,7 @@ TurmaH Gestor::getTurmaH(const UCTurma& ucTurma) const{
  * Para um determinado estudante este metodo procura o seu horario e organiza numa string
  * @param estudante estudante que se pretende ver o horario
  * @return string com o horario do estudante numa formatacao do genero (Dia: ; Hora de inicio: ; Tipo: )
+ * @complexity O(n*k)<br>n = número de turmas<br>k = média dos números de aulas das turmas
  */
 string Gestor::getEstudanteHorario(const Estudante& estudante) const{
       string stringHorario;
@@ -271,6 +296,7 @@ string Gestor::getEstudanteHorario(const Estudante& estudante) const{
 
 /**
  * Menu caso no menu pricipal seja escolhida a terceira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
+ * @complexity O(1)
  */
 void Gestor::menuVerDados(){
     int i = 0;
@@ -305,6 +331,7 @@ void Gestor::menuVerDados(){
 
 /**
  * Menu caso no menu pricipal seja escolhida a primeira opcao. Mais uma vez, este apresenta as opcoes possiveis de executar
+ * @complexity O(1)
  */
 void Gestor::menuAlterar(){
     int i = 0;
@@ -343,6 +370,7 @@ void Gestor::menuAlterar(){
 
 /**
  * Cria o menu pricipal, onde vamos escolher a opcao a realizar
+ * @complexity O(1)
  */
 void Gestor::mainMenu(){
     int i = 0;
@@ -379,6 +407,11 @@ void Gestor::mainMenu(){
 
 /**
  * Função que chama todas aquelas que vão ler os ficheiros e criar os objetos.
+ * @complexity O((n1+n2*k+n3*(k+2log(j)))*c)
+ * ni = número de linhas de cada ficheiro
+ * k = número de turmas
+ * j = número de estudantes
+ * c = número de caracteres em cada linha de cada ficheiro
  */
 void Gestor::lerFicheiros() {
     this->addUC();
@@ -388,6 +421,10 @@ void Gestor::lerFicheiros() {
 
 /**
  * imprime na consola o horário do estudante de acordo com o numero introduzido.
+ * @complexity O(n+k*j)
+ * n = número de estudantes
+ * k = número de turmas
+ * j = k = média dos números de aulas das turmas
  */
 void Gestor::verHorariosEstudante() {
     Estudante estudante = this->inputEstudante();
@@ -398,6 +435,9 @@ void Gestor::verHorariosEstudante() {
 /**
  * Pede o input do estudante (código e nome) de acordo com o que foi pedido no menu.
  * @return retorna o objeto estudante que coincide com os dados introduzios.
+ * @complexity O(k*log(n))
+ * n = número de estudantes
+ * k = número de vezes que o utilizador inserir um código inválido
  */
 Estudante& Gestor::inputEstudante() {
     string codEst;
@@ -417,6 +457,9 @@ Estudante& Gestor::inputEstudante() {
 /**
  * Dada uma turma devolve os estudantes dessa turma.
  * @param ucTurma string com os estudantes organizados por código e numero
+ * @complexity O(n*k)
+ * n = número de estudantes
+ * k = média dos números de turmas dos estudantes
  */
 void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
     string s;
@@ -425,6 +468,7 @@ void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
         for(auto & j : k){
             if(j.operator==(ucTurma)){
                 s+= "Codigo: "+ estudante.getCodEst() + "; Nome:" + estudante.getNomeEst() + "\n";
+                break;
             }
         }
     }
@@ -434,6 +478,9 @@ void Gestor::getEstudantesTurma(const UCTurma& ucTurma){
 /**
  * Pede o input da turma (codigo da turma e codigo da UC) de acordo com o que foi pedido no menu.
  * @return retorna o objeto turma que coincide com os dados introduzios.
+ * @complexity O(n*k)
+ * n = número de turmas;
+ * k = número de vezes que o utilizador inserir um código inválido
  */
 TurmaH Gestor::inputTurma() {
     string codTurma, codUC;
@@ -453,6 +500,8 @@ TurmaH Gestor::inputTurma() {
 
 /**
  * Imprime na consola o numero de estudante de cada turma de uma dada UC.
+ * @complexity O(n)
+ * n = número de turmas
  */
 void Gestor::ocupacao() {
     string s;
@@ -464,6 +513,15 @@ void Gestor::ocupacao() {
     cout << s;
 }
 
+/**
+ *
+ * @param estudante
+ * @param turmasNovas
+ * @param tipoPedido
+ * @complexity O(n*k)
+ * n = número de turmas do estudante
+ * k = número de turmas que vai trocar
+ */
 void Gestor::switchTurmasEstudante(Estudante& estudante, vector<UCTurma>& turmasNovas,TipoPedido tipoPedido) {
     auto turmas = estudante.getTurmas();
     if(tipoPedido != ADICIONAR) {
@@ -490,6 +548,14 @@ void Gestor::switchTurmasEstudante(Estudante& estudante, vector<UCTurma>& turmas
     }
 }
 
+/**
+ * De acordo com o input do utilizador cria um novo pedido de alteração de turmas
+ * e o coloca na fila de pedidos do gestor
+ * @param tipo Tipo do pedido de alteração, pode ser: Adicionar, Remover, Alterar
+ * @complexidade O(n + j)
+ * n = complexidade da função inputTurma();
+ * j = complexidade da função inputEstudante();
+ */
 void Gestor::novoPedido(TipoPedido tipo) {
     Estudante& est = this->inputEstudante();
     Pedido novoPedido(est,tipo);
@@ -497,6 +563,14 @@ void Gestor::novoPedido(TipoPedido tipo) {
     this->pedidosFila.push(novoPedido);
 }
 
+/**
+ * De acordo com o input do utilizador cria um novo pedido de alteração de turmas do tipo
+ * Alterar conjunto de turmas e o coloca na fila de pedidos do gestor
+ * @complexity O(n*k + j)
+ * n = número de turmas que o utilizador quer alterar
+ * k = complexidade da função inputTurma(){O(n*k)}
+ * j = complexidade da função inputEstudante();
+ */
 void Gestor::novoPedidoConj() {
     Estudante est = this->inputEstudante();
     Pedido novoPedido(est,ALTERARCONJ);

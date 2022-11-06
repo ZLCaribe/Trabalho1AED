@@ -1,7 +1,5 @@
 #include "Estudante.h"
 
-#include <utility>
-
 using namespace std;
 
 Estudante::Estudante(string codEst, string nomeEst):codEst(std::move(codEst)),nomeEst(std::move(nomeEst)){}
@@ -53,6 +51,7 @@ UCTurma Estudante::getTurmaByUC(const string& codUC) {
             return ucTurma;
     return {};
 }
+
 string Estudante::estudanteToString(){
     return "codigo: " + this->codEst + "nome: " + this->nomeEst;
 }

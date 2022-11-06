@@ -2,11 +2,13 @@
 #define TRABALHO1AED_GESTOR_H
 
 #include <set>
-#include <vector>
 #include <queue>
-#include "Estudante.h"
-#include "TurmaH.h"
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+ #include "TurmaH.h"
 #include "Pedido.h"
+#include "Estudante.h"
 
 using namespace std;
 

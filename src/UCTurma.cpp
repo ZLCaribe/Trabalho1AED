@@ -1,7 +1,5 @@
 #include "UCTurma.h"
 
-#include <utility>
-
 using namespace std;
 
 int UCTurma::MAX_ESTUDANTES = 25;

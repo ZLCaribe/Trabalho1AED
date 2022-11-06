@@ -1,7 +1,6 @@
 #ifndef TRABALHO1AED_ESTUDANTE_H
 #define TRABALHO1AED_ESTUDANTE_H
 
-#include "string"
 #include <list>
 #include <vector>
 #include "UCTurma.h"

@@ -30,6 +30,10 @@ void Estudante::addUCTurma(const UCTurma& ucTurma) {
     this->turmas.push_back(ucTurma);
 }
 
+/**
+ * Rremove a turma da lista de turmas do estudante.
+ * @param ucTurma turma a remover
+ */
 void Estudante::rmUCTurma(const UCTurma& ucTurma) {
     for(auto it = this->turmas.begin(); it != this->turmas.end();it++) {
         if (it->operator==(ucTurma)) {
@@ -47,6 +51,11 @@ bool Estudante::operator==(const Estudante& estudante) const{
     return this->codEst == estudante.codEst;
 }
 
+/**
+ * Quando a função recebe um codigo de uma UC, esta devolve a turma do estudante naquela UC
+ * @param codUC codigo da UC que queremos encontrar a turma
+ * @return retorna a Turma do aluno naquela UC
+ */
 UCTurma Estudante::getTurmaByUC(const string& codUC) {
     for(auto ucTurma : this->turmas)
         if(ucTurma.getCodUC() == codUC)
@@ -62,15 +71,3 @@ Estudante::Estudante() {
     this->nomeEst = "";
 }
 
-void Estudante::switchTurmas(const vector<UCTurma> &turmasNovas) {
-    for(auto turma = this->turmas.begin(); turma != this->turmas.end();){
-        for(const auto& turmaNova : turmasNovas){
-            if(turma->getCodUC() == turmaNova.getCodUC()){
-                turma = this->turmas.erase(turma);
-                this->turmas.push_back(turmaNova);
-                break;
-            }else
-                turma++;
-        }
-    }
-}
